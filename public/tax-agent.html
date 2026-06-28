@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indian Tax Agent — FY 2025-26</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8fafc;--surface:#ffffff;--surface2:#f1f5f9;--border:#e2e8f0;--border-strong:#cbd5e1;
+  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --accent:#2563eb;--accent-bg:#eff6ff;--accent-border:#bfdbfe;--accent-text:#1d4ed8;
+  --success:#059669;--success-bg:#ecfdf5;--success-border:#a7f3d0;--success-text:#065f46;
+  --warning-bg:#fffbeb;--warning-border:#fde68a;--warning-text:#92400e;
+  --danger:#dc2626;--danger-bg:#fef2f2;--danger-border:#fecaca;--danger-text:#991b1b;
+  --radius:8px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);min-height:100vh;padding:16px;color:var(--text);font-size:14px}
+.wrap{max-width:860px;margin:0 auto}
+.app{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+
+/* Header */
+.hdr{background:linear-gradient(135deg,#1e3a5f,#0f2847);padding:16px 20px;color:white}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.hdr-title{font-size:18px;font-weight:600;letter-spacing:-.3px}
+.hdr-sub{font-size:11px;opacity:.7;margin-top:2px}
+.meter-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:6px 12px;text-align:center;min-width:90px}
+.pill-label{font-size:9px;text-transform:uppercase;letter-spacing:.06em;opacity:.7}
+.pill-val{font-size:15px;font-weight:600;margin-top:1px}
+.pill-green .pill-val{color:#4ade80}
+.pill-red .pill-val{color:#f87171}
+.pill-amber .pill-val{color:#fbbf24}
+.pill-blue .pill-val{color:#93c5fd}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
+.badge-itr{background:rgba(99,102,241,.3);color:#c7d2fe;border:1px solid rgba(99,102,241,.4)}
+.badge-reg{background:rgba(16,185,129,.25);color:#6ee7b7;border:1px solid rgba(16,185,129,.3)}
+.badge-ay{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15)}
+
+/* Nav */
+.nav{display:flex;background:var(--surface2);border-bottom:1px solid var(--border);overflow-x:auto}
+.nav-btn{flex:1;min-width:72px;padding:12px 6px;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-size:11px;color:var(--text3);display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit;transition:.15s}
+.nav-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500}
+
+/* Body */
+.body{padding:20px;max-height:560px;overflow-y:auto}
+.section{margin-bottom:22px}
+.section-head{font-size:12px;font-weight:600;color:var(--accent-text);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.section-head svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* Form elements */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11px;color:var(--text2);margin-bottom:4px;font-weight:500}
+.field .sub{font-size:10px;color:var(--text3);margin-bottom:4px}
+.inp-wrap{display:flex;align-items:center;border:1px solid var(--border-strong);border-radius:var(--radius);overflow:hidden;background:white;transition:.15s}
+.inp-wrap:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.inp-wrap .sym{padding:0 10px;color:var(--text3);font-size:13px;background:var(--surface2);border-right:1px solid var(--border);height:36px;display:flex;align-items:center}
+.inp-wrap input{flex:1;border:none;outline:none;padding:8px 10px;font-size:13px;color:var(--text);font-family:inherit;background:white}
+input[type=text],input[type=number].txt,select{width:100%;border:1px solid var(--border-strong);border-radius:var(--radius);padding:8px 10px;font-size:13px;color:var(--text);outline:none;font-family:inherit;background:white;transition:.15s}
+input[type=text]:focus,input[type=number].txt:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.tog-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.tog-row span{font-size:12px;color:var(--text2)}
+.tog{width:40px;height:22px;border-radius:11px;position:relative;cursor:pointer;transition:.2s}
+.tog-off{background:var(--border-strong)}
+.tog-on{background:var(--accent)}
+.tog-thumb{position:absolute;top:3px;width:16px;height:16px;border-radius:50%;background:white;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+
+/* Info boxes */
+.box{border-radius:var(--radius);padding:10px 12px;font-size:12px;line-height:1.55;margin-top:6px;margin-bottom:8px;border:1px solid}
+.box.info{background:var(--surface2);border-color:var(--border);color:var(--text2)}
+.box.success{background:var(--success-bg);border-color:var(--success-border);color:var(--success-text)}
+.box.warning{background:var(--warning-bg);border-color:var(--warning-border);color:var(--warning-text)}
+.box.danger{background:var(--danger-bg);border-color:var(--danger-border);color:var(--danger-text)}
+.box.accent{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent-text)}
+
+/* Seg */
+.seg{display:flex;gap:6px;margin-bottom:12px}
+.seg-btn{flex:1;padding:8px;border:1px solid var(--border-strong);border-radius:var(--radius);background:white;cursor:pointer;font-size:12px;color:var(--text2);font-family:inherit;transition:.15s}
+.seg-btn.active{background:var(--accent);border-color:var(--accent);color:white;font-weight:500}
+
+/* Compare */
+.cmp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.rc{border:1px solid var(--border);border-radius:12px;padding:14px;position:relative;background:var(--surface)}
+.rc.best{border:2px solid var(--accent)}
+.rc-lbl{font-size:11px;color:var(--text3);margin-bottom:4px}
+.rc-tax{font-size:22px;font-weight:600;color:var(--text)}
+.rc.best .rc-tax{color:var(--accent-text)}
+.rc-sub{font-size:10px;color:var(--text3);margin-top:3px}
+.best-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--accent);color:white;font-size:10px;font-weight:600;padding:2px 10px;border-radius:20px;white-space:nowrap}
+.sav-box{text-align:center;padding:16px;border-radius:12px;margin-bottom:14px;border:1px solid}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:7px 10px;text-align:left;color:var(--text3);font-weight:500;background:var(--surface2);font-size:11px}
+td{padding:7px 10px;border-top:1px solid var(--border);color:var(--text)}
+td:nth-child(2){color:var(--accent-text);font-weight:500}
+.adv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.adv-c{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:10px}
+.adv-date{font-size:10px;color:var(--text3)}
+.adv-pct{font-size:12px;font-weight:500;color:var(--accent-text);margin-top:2px}
+.adv-amt{font-size:16px;font-weight:600;color:var(--text);margin-top:1px}
+
+/* ITR */
+.itr-guide{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.itr-row{display:flex;gap:10px;padding:9px 12px;border-bottom:1px solid var(--border);align-items:flex-start}
+.itr-row:last-child{border-bottom:none}
+.itr-row.active{background:var(--accent-bg)}
+.itr-name{font-size:12px;font-weight:600;min-width:78px;color:var(--accent-text)}
+.itr-desc{font-size:11px;color:var(--text3);line-height:1.5}
+
+/* Ded summary */
+.ded-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px}
+.ded-row span:last-child{color:var(--success);font-weight:500}
+.ded-tot{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;font-weight:600}
+
+/* Chat */
+.key-row{display:flex;gap:8px;margin-bottom:12px;align-items:center}
+.key-row input{flex:1;border:1px solid var(--border-strong);border-radius:var(--radius);padding:8px 10px;font-size:12px;font-family:monospace;outline:none}
+.key-row input:focus{border-color:var(--accent)}
+.key-btn{padding:8px 14px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.qchips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.qchip{background:var(--surface2);border:1px solid var(--border-strong);border-radius:20px;padding:5px 11px;font-size:11px;color:var(--text2);cursor:pointer;font-family:inherit;transition:.15s}
+.qchip:hover{border-color:var(--accent);color:var(--accent-text)}
+.chat-area{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);min-height:240px;max-height:260px;overflow-y:auto;padding:12px;margin-bottom:10px}
+.chat-empty{color:var(--text3);font-size:13px;text-align:center;padding:50px 20px;line-height:1.7}
+.msg-row{display:flex;gap:8px;margin-bottom:12px;align-items:flex-start}
+.msg-row.user{flex-direction:row-reverse}
+.msg-bubble{max-width:82%;padding:9px 13px;font-size:12px;line-height:1.6;border-radius:10px}
+.msg-row.assistant .msg-bubble{background:white;border:1px solid var(--border);border-radius:2px 10px 10px 10px}
+.msg-row.user .msg-bubble{background:var(--accent-bg);border:1px solid var(--accent-border);color:var(--accent-text);border-radius:10px 2px 10px 10px}
+.chat-input-row{display:flex;gap:8px}
+.chat-input-row input{flex:1;border:1px solid var(--border-strong);border-radius:var(--radius);padding:9px 12px;font-size:13px;outline:none;font-family:inherit}
+.chat-input-row input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.send-btn{background:var(--accent);border:none;border-radius:var(--radius);padding:9px 16px;color:white;font-size:13px;cursor:pointer;font-family:inherit;font-weight:500}
+.send-btn:disabled{opacity:.4;cursor:default}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="app">
+
+<div class="hdr">
+  <div class="hdr-top">
+    <div>
+      <div class="hdr-title">🇮🇳 Indian Tax Agent</div>
+      <div class="hdr-sub">FY 2025-26 · AY 2026-27 · Budget 2025 · Latest slab rates</div>
+    </div>
+  </div>
+  <div class="meter-row" id="meterRow"></div>
+  <div class="badge-row" id="badgeRow"></div>
+</div>
+
+<div class="nav" id="nav"></div>
+<div class="body" id="body"></div>
+
+</div>
+</div>
+
+<script>
+/* ─── SVG ICONS ─────────────────────────────────────────────────────────── */
+const ICO = {
+  user:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>',
+  cash:'<svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>',
+  receipt:'<svg viewBox="0 0 24 24"><path d="M4 2v20l3-2 2 2 3-2 3 2 2-2 3 2V2"/><path d="M8 7h8M8 11h8M8 15h4"/></svg>',
+  scale:'<svg viewBox="0 0 24 24"><path d="M12 3v18M3 9l4 6H3zm18 0l-4 6h4zM3 9h18"/></svg>',
+  robot:'<svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="12" rx="2"/><circle cx="9" cy="14" r="1.5"/><circle cx="15" cy="14" r="1.5"/><path d="M12 8V4M8 4h8"/></svg>',
+  info:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v1M12 11v5"/></svg>',
+  check:'<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
+  warn:'<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+};
+
+/* ─── STATE ──────────────────────────────────────────────────────────────── */
+const S = {
+  tab:'profile',
+  groqKey: localStorage.getItem('itax_groq_key')||'',
+  profile:{ name:'', pan:'', age:30, residential:'resident' },
+  income:{
+    grossSalary:0, basic:0, da:0, hra:0, rentPaid:0, isMetro:false, lta:0,
+    selfOccupied:true, homeLoanInterestHP:0, annualRent:0, municipalTax:0,
+    presumptive:false, grossProfessional:0, presumptiveRate:50,
+    businessIncome:0, professionalIncome:0, fnoProfit:0,
+    stcg15:0, stcgOther:0, ltcg10:0, ltcgOther:0,
+    fdInterest:0, savingsInterest:0, dividends:0, otherIncome:0
+  },
+  ded:{ c80C:0, c80CCD:0, c80D_self:0, c80D_par:0, c80E:0, c80G:0, c80TTA:0 },
+  messages:[], aiLoading:false, userInput:''
+};
+
+/* ─── HELPERS ────────────────────────────────────────────────────────────── */
+const INR = n => {
+  n = Math.round(n||0); const a = Math.abs(n);
+  const s = a>=1e7?(a/1e7).toFixed(2)+' Cr':a>=1e5?(a/1e5).toFixed(2)+' L':a>=1e3?(a/1e3).toFixed(1)+'K':a.toString();
+  return (n<0?'-₹':'₹')+s;
+};
+const FULL = n => '₹'+Math.round(n||0).toLocaleString('en-IN');
+
+/* ─── TAX ENGINE ─────────────────────────────────────────────────────────── */
+const NEW_SLABS=[{u:400000,r:0},{u:800000,r:.05},{u:1200000,r:.10},{u:1600000,r:.15},{u:2000000,r:.20},{u:2400000,r:.25},{u:Infinity,r:.30}];
+const OLD_SLABS={
+  general:[{u:250000,r:0},{u:500000,r:.05},{u:1000000,r:.20},{u:Infinity,r:.30}],
+  senior:[{u:300000,r:0},{u:500000,r:.05},{u:1000000,r:.20},{u:Infinity,r:.30}],
+  supersenior:[{u:500000,r:0},{u:1000000,r:.20},{u:Infinity,r:.30}]
+};
+
+function slabTax(inc, slabs){ let t=0,p=0; for(const s of slabs){if(inc<=p)break;t+=(Math.min(inc,s.u)-p)*s.r;p=s.u;} return t; }
+
+function surcharge(tax, inc, regime){
+  if(inc<=5000000) return 0;
+  if(regime==='new') return inc<=1e7?tax*.10:inc<=2e7?tax*.15:tax*.25;
+  return inc<=1e7?tax*.10:inc<=2e7?tax*.15:inc<=5e7?tax*.25:tax*.37;
+}
+
+function calcTax(inc, regime, cat='general'){
+  if(inc<=0) return {slab:0,rebate:0,sur:0,cess:0,total:0};
+  const slabs = regime==='new'?NEW_SLABS:(OLD_SLABS[cat]||OLD_SLABS.general);
+  const slab = slabTax(inc, slabs);
+  let rebate = 0;
+  if(regime==='new'&&inc<=1200000) rebate=Math.min(slab,60000);
+  if(regime==='old'&&inc<=500000) rebate=Math.min(slab,12500);
+  const ar = Math.max(0,slab-rebate);
+  const sur = surcharge(ar, inc, regime);
+  const cess = (ar+sur)*0.04;
+  return {slab, rebate, sur, cess, total:Math.round(ar+sur+cess)};
+}
+
+function calcHRA(basic,da,hra,rent,metro){
+  if(!rent||rent<=basic*.10) return 0;
+  return Math.max(0,Math.min(hra, rent-basic*.10, basic*(metro?.50:.40)));
+}
+
+function derive(){
+  const I=S.income, D=S.ded, P=S.profile;
+  const cat = P.age>=80?'supersenior':P.age>=60?'senior':'general';
+  const hraEx = calcHRA(I.basic,I.da,I.hra,I.rentPaid,I.isMetro);
+  const netSalNew = Math.max(0,I.grossSalary-75000);
+  const netSalOld = Math.max(0,I.grossSalary-50000-hraEx-I.lta);
+  const hpInc = I.selfOccupied ? -Math.min(I.homeLoanInterestHP,200000)
+    : I.annualRent-I.municipalTax-(I.annualRent-I.municipalTax)*.30-I.homeLoanInterestHP;
+  const profNet = I.presumptive ? I.grossProfessional*(I.presumptiveRate/100) : I.professionalIncome;
+  const totalBiz = I.businessIncome+I.fnoProfit+profNet;
+  const ltcgTax = Math.max(0,I.ltcg10-125000);
+  const specialTax = I.stcg15*.20+ltcgTax*.125+I.ltcgOther*.20;
+  const savEx = cat==='senior'?50000:10000;
+  const otherSrc = I.fdInterest+I.dividends+I.otherIncome+Math.max(0,I.savingsInterest-Math.min(I.savingsInterest,savEx));
+  const gtiNew = netSalNew+hpInc+totalBiz+I.stcgOther+otherSrc;
+  const gtiOld = netSalOld+hpInc+totalBiz+I.stcgOther+otherSrc;
+  const c80C=Math.min(D.c80C,150000), c80CCD=Math.min(D.c80CCD,50000);
+  const c80D=Math.min(D.c80D_self,cat==='senior'?50000:25000)+Math.min(D.c80D_par,50000);
+  const totalDed=c80C+c80CCD+c80D+D.c80E+D.c80G;
+  const normalNew=Math.max(0,gtiNew), normalOld=Math.max(0,gtiOld-totalDed);
+  const rNew=calcTax(normalNew,'new',cat), rOld=calcTax(normalOld,'old',cat);
+  const spCess=Math.round(specialTax*1.04);
+  const totalNew=rNew.total+spCess, totalOld=rOld.total+spCess;
+  const savings=totalOld-totalNew;
+  const effRate=normalNew>0?(totalNew/normalNew*100):0;
+  let itrForm='ITR-1';
+  if(totalBiz>0&&I.presumptive) itrForm='ITR-4';
+  else if(totalBiz>0) itrForm='ITR-3';
+  else if(I.stcg15>0||I.ltcg10>0||I.stcgOther>0||I.ltcgOther>0) itrForm='ITR-2';
+  return {hraEx,hpInc,profNet,totalBiz,ltcgTax,specialTax,spCess,otherSrc,gtiNew,gtiOld,c80C,c80CCD,c80D,totalDed,normalNew,normalOld,rNew,rOld,totalNew,totalOld,savings,effRate,itrForm,cat};
+}
+
+/* ─── RENDER HELPERS ─────────────────────────────────────────────────────── */
+function numF(label,key,st,sub,max){
+  const val=(S[st][key]||'');
+  return `<div class="field"><label>${label}${max?` <span style="font-size:10px;color:var(--text3)">(max ${FULL(max)})</span>`:''}</label>${sub?`<div class="sub">${sub}</div>`:''}<div class="inp-wrap"><span class="sym">₹</span><input type="number" value="${val}" oninput="si('${key}','${st}',this.value)" placeholder="0"></div></div>`;
+}
+function togR(label,key){
+  const on=S.income[key];
+  return `<div class="tog-row"><span>${label}</span><div class="tog ${on?'tog-on':'tog-off'}" onclick="tog('${key}')"><div class="tog-thumb" style="left:${on?'21px':'3px'}"></div></div></div>`;
+}
+function si(k,st,v){S[st][k]=Number(v)||0;render();}
+function tog(k){S.income[k]=!S.income[k];render();}
+function setTab(t){S.tab=t;render();}
+function setQ(q){S.userInput=q;render();setTimeout(()=>{const el=document.getElementById('ci');if(el){el.value=q;}},10);}
+
+/* ─── TAB CONTENTS ───────────────────────────────────────────────────────── */
+const TABS=[
+  {id:'profile',icon:'user',label:'Profile'},
+  {id:'income',icon:'cash',label:'Income'},
+  {id:'deductions',icon:'receipt',label:'Deductions'},
+  {id:'compare',icon:'scale',label:'Compare'},
+  {id:'ai',icon:'robot',label:'AI Advisor'},
+];
+
+function bodyProfile(d){
+  const P=S.profile;
+  const catMsg = P.age>=80?'Super senior citizen (80+) — old regime exemption up to ₹5L'
+    :P.age>=60?'Senior citizen (60–79) — old regime exemption up to ₹3L'
+    :'General taxpayer — old regime exemption ₹2.5L · New regime ₹4L (all categories)';
+  return `
+<div class="section"><div class="section-head">${ICO.user} Taxpayer details</div>
+<div class="grid2">
+  <div class="field"><label>Full name</label><input type="text" value="${P.name}" oninput="S.profile.name=this.value;render()" placeholder="As per PAN card"></div>
+  <div class="field"><label>PAN number</label><input type="text" value="${P.pan}" oninput="S.profile.pan=this.value.toUpperCase();render()" placeholder="ABCDE1234F" maxlength="10"></div>
+</div>
+<div class="grid2">
+  <div class="field"><label>Age</label><input type="number" class="txt" value="${P.age}" oninput="S.profile.age=Number(this.value)||30;render()" min="18" max="100"></div>
+  <div class="field"><label>Assessment year</label><select><option>AY 2026-27 (FY 2025-26)</option></select></div>
+</div>
+<div class="field"><label>Residential status</label><div class="seg">
+  <button class="seg-btn ${P.residential==='resident'?'active':''}" onclick="S.profile.residential='resident';render()">Resident (ROR/RNOR)</button>
+  <button class="seg-btn ${P.residential==='nri'?'active':''}" onclick="S.profile.residential='nri';render()">Non-Resident (NRI)</button>
+</div></div>
+<div class="box accent">${ICO.info} ${catMsg}</div>
+</div>
+
+<div class="section"><div class="section-head">${ICO.receipt} ITR form guide (auto-selected)</div>
+<div class="itr-guide">
+${[['ITR-1','Sahaj','Salaried/pension + 1 house property + other sources. Total income ≤ ₹50L'],
+   ['ITR-2','','Multiple HPs, capital gains, foreign income, NRI'],
+   ['ITR-3','','Business or profession income — F&O trading goes here'],
+   ['ITR-4','Sugam','Presumptive taxation — Sec 44AD / 44ADA / 44AE']].map(([f,s,desc])=>`
+<div class="itr-row ${d.itrForm===f?'active':''}">
+  <div class="itr-name">${f}${s?` <span style="font-size:9px;font-weight:400;color:var(--text3)">(${s})</span>`:''}</div>
+  <div class="itr-desc">${desc}${d.itrForm===f?' ← <strong>Your form</strong>':''}</div>
+</div>`).join('')}
+</div></div>`;
+}
+
+function bodyIncome(d){
+  const I=S.income;
+  return `
+<div class="section"><div class="section-head">${ICO.cash} Salary / pension</div>
+${numF('Gross salary (total CTC / salary slip)','grossSalary','income','Include all components: basic, DA, HRA, allowances, perquisites')}
+<div class="grid2">
+  ${numF('Basic salary','basic','income')}
+  ${numF('DA (dearness allowance)','da','income')}
+  ${numF('HRA received','hra','income','For old-regime HRA exemption calculation')}
+  ${numF('Annual rent paid','rentPaid','income','If living in rented accommodation')}
+</div>
+${togR('Metro city? (Mumbai / Delhi / Chennai / Kolkata)','isMetro')}
+${I.hra>0&&I.rentPaid>0?`<div class="box success">${ICO.check} HRA exemption (old regime): ${FULL(d.hraEx)}<br><span style="font-size:10px">= min(HRA received, Rent − 10% basic, ${I.isMetro?'50%':'40%'} of basic)</span></div>`:''}
+${numF('LTA (leave travel allowance claimed)','lta','income','Old regime exemption. 2 journeys in a 4-year block')}
+</div>
+
+<div class="section"><div class="section-head">${ICO.receipt} House property</div>
+${togR('Self-occupied property?','selfOccupied')}
+${I.selfOccupied
+  ? numF('Home loan interest (Section 24b)','homeLoanInterestHP','income','Max deduction ₹2,00,000 for self-occupied',200000)
+  : numF('Annual rent received','annualRent','income')+numF('Municipal tax paid','municipalTax','income')+numF('Home loan interest (let-out)','homeLoanInterestHP','income','No ceiling for let-out property')
+}
+<div class="box info">${d.hpInc<0?`Loss on HP: ${FULL(d.hpInc)} — can offset salary income up to ₹2L`:`HP income: ${FULL(d.hpInc)}`}</div>
+</div>
+
+<div class="section"><div class="section-head">${ICO.cash} Business / profession</div>
+${togR('Presumptive taxation (44AD / 44ADA)?','presumptive')}
+${I.presumptive?`
+${numF('Gross professional / business receipts','grossProfessional','income','Doctors, CAs, lawyers → 44ADA (max ₹75L). Traders → 44AD (max ₹3Cr)')}
+<div class="field"><label>Presumptive rate</label><select onchange="S.income.presumptiveRate=Number(this.value);render()">
+  <option value="50" ${I.presumptiveRate==50?'selected':''}>50% — Section 44ADA (professionals)</option>
+  <option value="6" ${I.presumptiveRate==6?'selected':''}>6% — Section 44AD (digital/bank transactions)</option>
+  <option value="8" ${I.presumptiveRate==8?'selected':''}>8% — Section 44AD (cash business)</option>
+</select></div>
+<div class="box success">${ICO.check} Net taxable income: ${FULL(d.profNet)}</div>
+`:`
+${numF('Business income (net profit)','businessIncome','income')}
+${numF('Professional income (net after expenses)','professionalIncome','income')}
+`}
+${numF('F&O profit / loss (net)','fnoProfit','income','Futures & Options = non-speculative business. Report in Schedule BP. Carry forward losses 8 yrs')}
+</div>
+
+<div class="section"><div class="section-head">${ICO.scale} Capital gains — Budget 2024 rates</div>
+<div class="box accent" style="margin-bottom:10px">Listed equity/MF: STCG 20% · LTCG 12.5% with ₹1.25L exemption · Holding &gt;12 months = long-term</div>
+<div class="grid2">
+  ${numF('STCG — equity/MF (Sec 111A)','stcg15','income','Short-term on listed equity & equity MF — taxed at 20%')}
+  ${numF('STCG — other assets','stcgOther','income','Debt MF, gold, property (held &lt;2/3 yrs) — taxed at slab rate')}
+  ${numF('LTCG — equity/MF (Sec 112A)','ltcg10','income','12.5% on gains exceeding ₹1.25L')}
+  ${numF('LTCG — other assets','ltcgOther','income','Property, gold, debt MF — 20% without indexation')}
+</div>
+${I.ltcg10>0?`<div class="box success">${ICO.check} LTCG exempt: ₹1,25,000 | Taxable LTCG: ${FULL(d.ltcgTax)} @ 12.5%</div>`:''}
+</div>
+
+<div class="section"><div class="section-head">${ICO.cash} Other sources</div>
+<div class="grid2">
+  ${numF('FD / RD interest','fdInterest','income','Fully taxable. Bank deducts TDS @10%')}
+  ${numF('Savings account interest','savingsInterest','income','₹10K exempt u/s 80TTA (₹50K for seniors 80TTB)')}
+  ${numF('Dividends','dividends','income','Taxable in your hands. TDS @10% if >₹5,000/company')}
+  ${numF('Other income','otherIncome','income','Online gaming (30% flat), gifts, lottery, etc.')}
+</div>
+</div>`;
+}
+
+function bodyDed(d){
+  const D=S.ded, P=S.profile;
+  return `
+<div class="box warning" style="margin-bottom:16px">${ICO.warn} These deductions apply <strong>only under old regime.</strong> New regime does not allow Chapter VI-A deductions (except employer NPS u/s 80CCD(2)).</div>
+
+<div class="section"><div class="section-head">Sec 80C — max ₹1,50,000</div>
+<div class="box info" style="margin-bottom:8px;font-size:11px">EPF · PPF · ELSS · LIC premium · NSC · SCSS · Sukanya Samriddhi · Home loan principal repayment · Children's tuition fees (max 2 children)</div>
+${numF('Total 80C investments / payments','c80C','ded','',150000)}
+${D.c80C>150000?'<div class="box danger">Capped at ₹1,50,000</div>':''}
+</div>
+
+<div class="section"><div class="section-head">Sec 80CCD(1B) — NPS additional</div>
+${numF('Additional NPS contribution','c80CCD','ded','Separate deduction over and above 80C. Saves extra ₹15,000+ tax at 30% bracket',50000)}
+</div>
+
+<div class="section"><div class="section-head">Sec 80D — health insurance premiums</div>
+${numF('Self / spouse / children premium','c80D_self','ded',`Max ₹${P.age>=60?'50,000 (you are senior citizen)':'25,000'}`,P.age>=60?50000:25000)}
+${numF("Parents' premium",'c80D_par','ded','Max ₹50,000 if parents are senior citizens, else ₹25,000',50000)}
+</div>
+
+<div class="section"><div class="section-head">Sec 80E — education loan interest</div>
+${numF('Education loan interest paid','c80E','ded','No upper limit. Only interest portion eligible. Available for 8 consecutive years')}
+</div>
+
+<div class="section"><div class="section-head">Sec 80TTA / 80TTB — savings interest</div>
+${numF('Savings account interest (to exempt)','c80TTA','ded',`Max ₹${P.age>=60?'50,000 under 80TTB for senior citizens':'10,000 under 80TTA'}`,P.age>=60?50000:10000)}
+</div>
+
+<div class="section"><div class="section-head">Sec 80G — donations</div>
+${numF('Eligible donations','c80G','ded','50% or 100% deductible depending on organisation. Subject to 10% of adjusted GTI limit')}
+</div>
+
+<div class="section"><div class="section-head">Deduction summary (old regime)</div>
+${[['Sec 80C',d.c80C],['Sec 80CCD(1B) — NPS',d.c80CCD],['Sec 80D — health insurance',d.c80D],['Sec 80E — education loan',S.ded.c80E],['Sec 80G — donations',S.ded.c80G],['HRA exemption',d.hraEx]].map(([k,v])=>`<div class="ded-row"><span>${k}</span><span>${FULL(v)}</span></div>`).join('')}
+<div class="ded-tot"><span>Total deductions</span><span style="color:var(--success)">${FULL(d.totalDed+d.hraEx)}</span></div>
+</div>`;
+}
+
+function bodyCompare(d){
+  const rn=d.totalNew, ro=d.totalOld, sv=d.savings, best=sv>=0;
+  return `
+<div class="cmp-grid">
+  <div class="rc ${best?'best':''}">
+    ${best?'<div class="best-badge">Better choice</div>':''}
+    <div class="rc-lbl">New regime</div>
+    <div class="rc-tax">${FULL(rn)}</div>
+    <div class="rc-sub">on ${INR(d.normalNew)} taxable income</div>
+    <div class="rc-sub" style="margin-top:6px">Std deduction ₹75,000 · No Chap VI-A</div>
+  </div>
+  <div class="rc ${!best?'best':''}">
+    ${!best?'<div class="best-badge">Better choice</div>':''}
+    <div class="rc-lbl">Old regime</div>
+    <div class="rc-tax">${FULL(ro)}</div>
+    <div class="rc-sub">on ${INR(d.normalOld)} taxable income</div>
+    <div class="rc-sub" style="margin-top:6px">Std deduction ₹50,000 · HRA/80C/80D allowed</div>
+  </div>
+</div>
+
+<div class="sav-box" style="background:var(${best?'--success-bg':'--accent-bg'});border-color:var(${best?'--success-border':'--accent-border'})">
+  <div style="font-size:12px;color:var(${best?'--success-text':'--accent-text'})">${best?'New regime saves you':'Old regime saves you'}</div>
+  <div style="font-size:30px;font-weight:600;color:var(${best?'--success-text':'--accent-text'})">${FULL(Math.abs(sv))}</div>
+  <div style="font-size:11px;color:var(--text3);margin-top:4px">per year · Switch regime at the start of each financial year</div>
+</div>
+
+<div class="section"><div class="section-head">New regime slabs — FY 2025-26</div>
+<table><thead><tr><th>Income range</th><th>Rate</th><th>Tax on slab</th></tr></thead><tbody>
+${[['₹0 – ₹4,00,000','0%','Nil'],['₹4L – ₹8L','5%','₹20,000'],['₹8L – ₹12L','10%','₹40,000'],['₹12L – ₹16L','15%','₹60,000'],['₹16L – ₹20L','20%','₹80,000'],['₹20L – ₹24L','25%','₹1,00,000'],['Above ₹24L','30%','—']].map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}
+</tbody></table>
+<div class="box success" style="margin-top:8px">${ICO.check} Rebate 87A: Zero tax up to ₹12L income · Salaried: zero tax up to ₹12.75L (after ₹75K std deduction)</div>
+</div>
+
+<div class="section"><div class="section-head">Old regime slabs</div>
+<table><thead><tr><th>Income range</th><th>Rate</th></tr></thead><tbody>
+${[['₹0 – ₹2.5L (₹3L senior · ₹5L super-senior)','0%'],['₹2.5L – ₹5L','5%'],['₹5L – ₹10L','20%'],['Above ₹10L','30%']].map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}
+</tbody></table>
+<div class="box info" style="margin-top:8px">Surcharge: 10% (50L–1Cr), 15% (1–2Cr), 25% (2–5Cr), 37% (>5Cr). New regime max: 25%. Cess: 4% on all.</div>
+</div>
+
+<div class="section"><div class="section-head">Advance tax schedule${rn>10000?' (due on new-regime estimate)':''}</div>
+${rn>10000?`<div class="adv-grid">
+${[['15 Jun','15%',rn*.15],['15 Sep','45%',rn*.45],['15 Dec','75%',rn*.75],['15 Mar','100%',rn]].map(([dt,p,a])=>`<div class="adv-c"><div class="adv-date">By ${dt}</div><div class="adv-pct">${p} cumulative</div><div class="adv-amt">${FULL(a)}</div></div>`).join('')}
+</div>`:`<div class="box success">${ICO.check} Tax liability ≤ ₹10,000 — advance tax not required. Pay all tax by 31 March.</div>`}
+</div>`;
+}
+
+function bodyAI(d){
+  const msgs=S.messages;
+  return `
+<div class="box accent" style="margin-bottom:12px">${ICO.robot} AI advisor — ask anything about your taxes. Uses your income data as context.</div>
+
+<div class="key-row">
+  <input id="groqKey" type="password" value="${S.groqKey}" placeholder="Paste your Groq API key (free at console.groq.com)" oninput="S.groqKey=this.value;localStorage.setItem('itax_groq_key',this.value)">
+  <button class="key-btn" onclick="testKey()">Test key</button>
+</div>
+
+<div class="qchips">
+${['Which regime suits me?','How to save more tax?','When to pay advance tax?','Documents needed for ITR?','Explain my 80C options','Is F&O income taxable?','What is 44ADA?'].map(q=>`<button class="qchip" onclick="setQ('${q}')">${q}</button>`).join('')}
+</div>
+
+<div class="chat-area" id="chatArea">
+${msgs.length===0?`<div class="chat-empty">${ICO.info}<br><br>Ask anything about your Indian taxes<br><span style="font-size:11px">I have your income profile as context</span></div>`:
+msgs.map(m=>`<div class="msg-row ${m.role}"><div class="msg-bubble">${m.content.replace(/\n/g,'<br>')}</div></div>`).join('')}
+${S.aiLoading?`<div class="msg-row assistant"><div class="msg-bubble" style="color:var(--text3)">Thinking…</div></div>`:''}
+</div>
+<div class="chat-input-row">
+  <input id="ci" value="${S.userInput.replace(/"/g,'&quot;')}" oninput="S.userInput=this.value" onkeydown="if(event.key==='Enter')sendAI()" placeholder="Ask about deductions, ITR form, regime choice…">
+  <button class="send-btn" onclick="sendAI()" ${S.aiLoading?'disabled':''}>Send</button>
+</div>`;
+}
+
+/* ─── AI ─────────────────────────────────────────────────────────────────── */
+async function testKey(){
+  if(!S.groqKey){alert('Enter a Groq API key first.');return;}
+  try{
+    const r=await fetch('https://api.groq.com/openai/v1/models',{headers:{Authorization:`Bearer ${S.groqKey}`}});
+    if(r.ok) alert('Key is valid!'); else alert('Invalid key. Check console.groq.com');
+  }catch(e){alert('Network error.');}
+}
+
+async function sendAI(){
+  const q=S.userInput.trim();
+  if(!q||S.aiLoading) return;
+  if(!S.groqKey){alert('Enter your Groq API key first (free at console.groq.com).');return;}
+  const d=derive();
+  S.messages.push({role:'user',content:q});
+  S.userInput=''; S.aiLoading=true; render();
+  const sys=`You are an expert Indian tax advisor (FY 2025-26 / AY 2026-27).
+USER DATA: Name ${S.profile.name||'User'}, Age ${S.profile.age}, ${S.profile.residential}.
+Gross Salary: ${FULL(S.income.grossSalary)} | Taxable (New): ${FULL(d.normalNew)} | Taxable (Old): ${FULL(d.normalOld)}
+Tax (New regime): ${FULL(d.totalNew)} | Tax (Old regime): ${FULL(d.totalOld)}
+Recommendation: ${d.savings>=0?'New regime (saves '+FULL(d.savings)+')':'Old regime (saves '+FULL(-d.savings)+')'}
+ITR Form: ${d.itrForm} | 80C used: ${FULL(S.ded.c80C)}/₹1,50,000 | F&O: ${FULL(S.income.fnoProfit)} | Presumptive: ${S.income.presumptive}
+KNOWLEDGE: New regime slabs 0-4L:0%, 4-8L:5%, 8-12L:10%, 12-16L:15%, 16-20L:20%, 20-24L:25%, >24L:30%. Std ded ₹75K new/₹50K old. Rebate 87A: ₹60K rebate if income≤₹12L (zero tax to ₹12.75L salaried). STCG equity 20%, LTCG equity 12.5% with ₹1.25L exempt. 44ADA: 50% presumptive for professionals up to ₹75L. Advance tax if liability>₹10K. F&O=non-speculative business ITR-3. Cess 4%.
+Give concise, practical advice with ₹ amounts using user's actual numbers.`;
+  try{
+    const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json',Authorization:`Bearer ${S.groqKey}`},
+      body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1024,messages:[{role:'system',content:sys},...S.messages.map(m=>({role:m.role,content:m.content}))]})
+    });
+    const data=await r.json();
+    S.messages.push({role:'assistant',content:data.choices?.[0]?.message?.content||'No response.'});
+  }catch(e){S.messages.push({role:'assistant',content:'⚠️ Error: '+e.message});}
+  S.aiLoading=false; render();
+}
+
+/* ─── MAIN RENDER ────────────────────────────────────────────────────────── */
+function render(){
+  const d=derive();
+  const {totalNew:rn,totalOld:ro,savings:sv,effRate,itrForm}=d;
+  const best=sv>=0;
+
+  document.getElementById('meterRow').innerHTML=`
+    <div class="pill pill-red"><div class="pill-label">Tax (New)</div><div class="pill-val">${INR(rn)}</div></div>
+    <div class="pill pill-amber"><div class="pill-label">Tax (Old)</div><div class="pill-val">${INR(ro)}</div></div>
+    <div class="pill ${best?'pill-green':'pill-red'}"><div class="pill-label">${best?'New saves':'Old saves'}</div><div class="pill-val">${INR(Math.abs(sv))}</div></div>
+    <div class="pill pill-blue"><div class="pill-label">Eff. rate</div><div class="pill-val">${effRate.toFixed(1)}%</div></div>`;
+
+  document.getElementById('badgeRow').innerHTML=`
+    <span class="badge badge-itr">📄 ${itrForm}</span>
+    <span class="badge badge-reg">✓ ${best?'New regime better':'Old regime better'}</span>
+    <span class="badge badge-ay">AY 2026-27</span>`;
+
+  document.getElementById('nav').innerHTML=TABS.map(t=>`
+    <button class="nav-btn ${S.tab===t.id?'active':''}" onclick="setTab('${t.id}')">
+      ${ICO[t.icon]||''}${t.label}
+    </button>`).join('');
+
+  const fns={profile:bodyProfile,income:bodyIncome,deductions:bodyDed,compare:bodyCompare,ai:bodyAI};
+  document.getElementById('body').innerHTML=(fns[S.tab]||bodyProfile)(d);
+
+  if(S.tab==='ai'){const ca=document.getElementById('chatArea');if(ca)ca.scrollTop=ca.scrollHeight;}
+}
+
+render();
+</script>
+</body>
+</html>
