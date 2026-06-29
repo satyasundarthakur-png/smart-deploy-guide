@@ -13,12 +13,12 @@
   --success:#059669;--success-bg:#ecfdf5;--success-border:#a7f3d0;--success-text:#065f46;
   --warning-bg:#fffbeb;--warning-border:#fde68a;--warning-text:#92400e;
   --danger:#dc2626;--danger-bg:#fef2f2;--danger-border:#fecaca;--danger-text:#991b1b;
+  --purple-bg:#f5f3ff;--purple-border:#ddd6fe;--purple-text:#5b21b6;
   --radius:8px;
 }
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);min-height:100vh;padding:16px;color:var(--text);font-size:14px}
 .wrap{max-width:860px;margin:0 auto}
 .app{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07)}
-
 /* Header */
 .hdr{background:linear-gradient(135deg,#1e3a5f,#0f2847);padding:16px 20px;color:white}
 .hdr-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
@@ -37,19 +37,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .badge-itr{background:rgba(99,102,241,.3);color:#c7d2fe;border:1px solid rgba(99,102,241,.4)}
 .badge-reg{background:rgba(16,185,129,.25);color:#6ee7b7;border:1px solid rgba(16,185,129,.3)}
 .badge-ay{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15)}
-
+.badge-warn{background:rgba(251,191,36,.25);color:#fde68a;border:1px solid rgba(251,191,36,.3)}
 /* Nav */
 .nav{display:flex;background:var(--surface2);border-bottom:1px solid var(--border);overflow-x:auto}
 .nav-btn{flex:1;min-width:72px;padding:12px 6px;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-size:11px;color:var(--text3);display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit;transition:.15s}
 .nav-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500}
-
 /* Body */
-.body{padding:20px;max-height:560px;overflow-y:auto}
+.body{padding:20px;max-height:600px;overflow-y:auto}
 .section{margin-bottom:22px}
 .section-head{font-size:12px;font-weight:600;color:var(--accent-text);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
 .section-head svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
-
 /* Form elements */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:560px){.grid2{grid-template-columns:1fr}}
@@ -68,7 +66,6 @@ input[type=text]:focus,input[type=number].txt:focus,select:focus{border-color:va
 .tog-off{background:var(--border-strong)}
 .tog-on{background:var(--accent)}
 .tog-thumb{position:absolute;top:3px;width:16px;height:16px;border-radius:50%;background:white;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-
 /* Info boxes */
 .box{border-radius:var(--radius);padding:10px 12px;font-size:12px;line-height:1.55;margin-top:6px;margin-bottom:8px;border:1px solid}
 .box.info{background:var(--surface2);border-color:var(--border);color:var(--text2)}
@@ -76,12 +73,11 @@ input[type=text]:focus,input[type=number].txt:focus,select:focus{border-color:va
 .box.warning{background:var(--warning-bg);border-color:var(--warning-border);color:var(--warning-text)}
 .box.danger{background:var(--danger-bg);border-color:var(--danger-border);color:var(--danger-text)}
 .box.accent{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent-text)}
-
+.box.purple{background:var(--purple-bg);border-color:var(--purple-border);color:var(--purple-text)}
 /* Seg */
 .seg{display:flex;gap:6px;margin-bottom:12px}
 .seg-btn{flex:1;padding:8px;border:1px solid var(--border-strong);border-radius:var(--radius);background:white;cursor:pointer;font-size:12px;color:var(--text2);font-family:inherit;transition:.15s}
 .seg-btn.active{background:var(--accent);border-color:var(--accent);color:white;font-weight:500}
-
 /* Compare */
 .cmp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
 .rc{border:1px solid var(--border);border-radius:12px;padding:14px;position:relative;background:var(--surface)}
@@ -101,20 +97,24 @@ td:nth-child(2){color:var(--accent-text);font-weight:500}
 .adv-date{font-size:10px;color:var(--text3)}
 .adv-pct{font-size:12px;font-weight:500;color:var(--accent-text);margin-top:2px}
 .adv-amt{font-size:16px;font-weight:600;color:var(--text);margin-top:1px}
-
-/* ITR */
+/* ITR guide */
 .itr-guide{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.itr-row{display:flex;gap:10px;padding:9px 12px;border-bottom:1px solid var(--border);align-items:flex-start}
+.itr-row{display:flex;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border);align-items:flex-start;cursor:default;transition:.15s}
 .itr-row:last-child{border-bottom:none}
-.itr-row.active{background:var(--accent-bg)}
-.itr-name{font-size:12px;font-weight:600;min-width:78px;color:var(--accent-text)}
-.itr-desc{font-size:11px;color:var(--text3);line-height:1.5}
-
-/* Ded summary */
+.itr-row.active{background:var(--accent-bg);border-left:3px solid var(--accent)}
+.itr-row.unavail{opacity:.5}
+.itr-name{font-size:12px;font-weight:600;min-width:82px;color:var(--accent-text)}
+.itr-row.unavail .itr-name{color:var(--text3)}
+.itr-desc{font-size:11px;color:var(--text3);line-height:1.55}
+.itr-why{font-size:10px;background:var(--accent);color:white;padding:2px 7px;border-radius:10px;white-space:nowrap;margin-left:auto;flex-shrink:0}
+/* Deductions summary */
 .ded-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px}
 .ded-row span:last-child{color:var(--success);font-weight:500}
 .ded-tot{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;font-weight:600}
-
+/* Filing checklist */
+.chk-item{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px;align-items:flex-start}
+.chk-item:last-child{border-bottom:none}
+.chk-num{background:var(--accent);color:white;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;margin-top:1px}
 /* Chat */
 .key-row{display:flex;gap:8px;margin-bottom:12px;align-items:center}
 .key-row input{flex:1;border:1px solid var(--border-strong);border-radius:var(--radius);padding:8px 10px;font-size:12px;font-family:monospace;outline:none}
@@ -123,7 +123,7 @@ td:nth-child(2){color:var(--accent-text);font-weight:500}
 .qchips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
 .qchip{background:var(--surface2);border:1px solid var(--border-strong);border-radius:20px;padding:5px 11px;font-size:11px;color:var(--text2);cursor:pointer;font-family:inherit;transition:.15s}
 .qchip:hover{border-color:var(--accent);color:var(--accent-text)}
-.chat-area{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);min-height:240px;max-height:260px;overflow-y:auto;padding:12px;margin-bottom:10px}
+.chat-area{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);min-height:240px;max-height:280px;overflow-y:auto;padding:12px;margin-bottom:10px}
 .chat-empty{color:var(--text3);font-size:13px;text-align:center;padding:50px 20px;line-height:1.7}
 .msg-row{display:flex;gap:8px;margin-bottom:12px;align-items:flex-start}
 .msg-row.user{flex-direction:row-reverse}
@@ -135,6 +135,8 @@ td:nth-child(2){color:var(--accent-text);font-weight:500}
 .chat-input-row input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
 .send-btn{background:var(--accent);border:none;border-radius:var(--radius);padding:9px 16px;color:white;font-size:13px;cursor:pointer;font-family:inherit;font-weight:500}
 .send-btn:disabled{opacity:.4;cursor:default}
+/* Marginal relief chip */
+.relief-chip{display:inline-block;background:#fef9c3;border:1px solid #fde047;color:#713f12;border-radius:6px;font-size:11px;padding:3px 9px;margin-top:6px}
 </style>
 </head>
 <body>
@@ -145,7 +147,7 @@ td:nth-child(2){color:var(--accent-text);font-weight:500}
   <div class="hdr-top">
     <div>
       <div class="hdr-title">🇮🇳 Indian Tax Agent</div>
-      <div class="hdr-sub">FY 2025-26 · AY 2026-27 · Budget 2025 · Latest slab rates</div>
+      <div class="hdr-sub">FY 2025-26 · AY 2026-27 · Budget 2025 · Filing deadline: 31 Jul 2026</div>
     </div>
   </div>
   <div class="meter-row" id="meterRow"></div>
@@ -169,6 +171,8 @@ const ICO = {
   info:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v1M12 11v5"/></svg>',
   check:'<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
   warn:'<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  file:'<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+  calendar:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
 };
 
 /* ─── STATE ──────────────────────────────────────────────────────────────── */
@@ -184,7 +188,11 @@ const S = {
     stcg15:0, stcgOther:0, ltcg10:0, ltcgOther:0,
     fdInterest:0, savingsInterest:0, dividends:0, otherIncome:0
   },
-  ded:{ c80C:0, c80CCD:0, c80D_self:0, c80D_par:0, c80E:0, c80G:0, c80TTA:0 },
+  ded:{
+    c80C:0, c80CCD1B:0, c80CCD2:0,
+    c80D_self:0, c80D_par:0, c80E:0, c80G:0, c80TTA:0,
+    c80EEA:0
+  },
   messages:[], aiLoading:false, userInput:''
 };
 
@@ -208,21 +216,30 @@ function slabTax(inc, slabs){ let t=0,p=0; for(const s of slabs){if(inc<=p)break
 
 function surcharge(tax, inc, regime){
   if(inc<=5000000) return 0;
+  // New regime: max surcharge 25% (Budget 2024 cap)
   if(regime==='new') return inc<=1e7?tax*.10:inc<=2e7?tax*.15:tax*.25;
+  // Old regime: 37% for >5Cr
   return inc<=1e7?tax*.10:inc<=2e7?tax*.15:inc<=5e7?tax*.25:tax*.37;
 }
 
 function calcTax(inc, regime, cat='general'){
-  if(inc<=0) return {slab:0,rebate:0,sur:0,cess:0,total:0};
+  if(inc<=0) return {slab:0,rebate:0,sur:0,cess:0,total:0,marginalRelief:0};
   const slabs = regime==='new'?NEW_SLABS:(OLD_SLABS[cat]||OLD_SLABS.general);
   const slab = slabTax(inc, slabs);
   let rebate = 0;
   if(regime==='new'&&inc<=1200000) rebate=Math.min(slab,60000);
   if(regime==='old'&&inc<=500000) rebate=Math.min(slab,12500);
-  const ar = Math.max(0,slab-rebate);
+  // Marginal relief: if just above 12L in new regime, tax shouldn't exceed excess over 12L
+  let marginalRelief = 0;
+  if(regime==='new' && inc>1200000 && inc<=1300000){
+    const taxAfterRebate = Math.max(0, slab - rebate);
+    const excess = inc - 1200000;
+    if(taxAfterRebate > excess){ marginalRelief = taxAfterRebate - excess; }
+  }
+  const ar = Math.max(0, slab - rebate - marginalRelief);
   const sur = surcharge(ar, inc, regime);
   const cess = (ar+sur)*0.04;
-  return {slab, rebate, sur, cess, total:Math.round(ar+sur+cess)};
+  return {slab, rebate, marginalRelief, sur, cess, total:Math.round(ar+sur+cess)};
 }
 
 function calcHRA(basic,da,hra,rent,metro){
@@ -239,27 +256,84 @@ function derive(){
   const hpInc = I.selfOccupied ? -Math.min(I.homeLoanInterestHP,200000)
     : I.annualRent-I.municipalTax-(I.annualRent-I.municipalTax)*.30-I.homeLoanInterestHP;
   const profNet = I.presumptive ? I.grossProfessional*(I.presumptiveRate/100) : I.professionalIncome;
-  const totalBiz = I.businessIncome+I.fnoProfit+profNet;
+  // F&O always goes to ITR-3; don't mix with presumptive
+  const totalBiz = I.businessIncome + I.fnoProfit + profNet;
   const ltcgTax = Math.max(0,I.ltcg10-125000);
-  const specialTax = I.stcg15*.20+ltcgTax*.125+I.ltcgOther*.20;
+  const specialTax = I.stcg15*.20 + ltcgTax*.125 + I.ltcgOther*.20 + I.stcgOther*0; // stcgOther at slab
   const savEx = cat==='senior'?50000:10000;
-  const otherSrc = I.fdInterest+I.dividends+I.otherIncome+Math.max(0,I.savingsInterest-Math.min(I.savingsInterest,savEx));
-  const gtiNew = netSalNew+hpInc+totalBiz+I.stcgOther+otherSrc;
-  const gtiOld = netSalOld+hpInc+totalBiz+I.stcgOther+otherSrc;
-  const c80C=Math.min(D.c80C,150000), c80CCD=Math.min(D.c80CCD,50000);
-  const c80D=Math.min(D.c80D_self,cat==='senior'?50000:25000)+Math.min(D.c80D_par,50000);
-  const totalDed=c80C+c80CCD+c80D+D.c80E+D.c80G;
-  const normalNew=Math.max(0,gtiNew), normalOld=Math.max(0,gtiOld-totalDed);
-  const rNew=calcTax(normalNew,'new',cat), rOld=calcTax(normalOld,'old',cat);
-  const spCess=Math.round(specialTax*1.04);
-  const totalNew=rNew.total+spCess, totalOld=rOld.total+spCess;
-  const savings=totalOld-totalNew;
-  const effRate=normalNew>0?(totalNew/normalNew*100):0;
-  let itrForm='ITR-1';
-  if(totalBiz>0&&I.presumptive) itrForm='ITR-4';
-  else if(totalBiz>0) itrForm='ITR-3';
-  else if(I.stcg15>0||I.ltcg10>0||I.stcgOther>0||I.ltcgOther>0) itrForm='ITR-2';
-  return {hraEx,hpInc,profNet,totalBiz,ltcgTax,specialTax,spCess,otherSrc,gtiNew,gtiOld,c80C,c80CCD,c80D,totalDed,normalNew,normalOld,rNew,rOld,totalNew,totalOld,savings,effRate,itrForm,cat};
+  const savExUsed = Math.min(I.savingsInterest, savEx);
+  const otherSrc = I.fdInterest+I.dividends+I.otherIncome+(I.savingsInterest-savExUsed);
+
+  // GTI (gross total income) before deductions
+  const gtiNew = netSalNew + hpInc + totalBiz + I.stcgOther + otherSrc;
+  const gtiOld = netSalOld + hpInc + totalBiz + I.stcgOther + otherSrc;
+
+  // Deductions (old regime)
+  const c80C  = Math.min(D.c80C, 150000);
+  const c80CCD1B = Math.min(D.c80CCD1B, 50000);
+  const c80D  = Math.min(D.c80D_self, cat==='senior'?50000:25000) + Math.min(D.c80D_par, 50000);
+  const c80EEA = Math.min(D.c80EEA, 150000); // affordable housing
+  const totalDed = c80C + c80CCD1B + c80D + D.c80E + D.c80G + c80EEA;
+  // 80CCD(2) allowed in both regimes — employer NPS
+  const c80CCD2 = Math.min(D.c80CCD2, 0.14 * I.grossSalary); // max 14% of basic+DA, simplified to gross
+
+  const normalNew = Math.max(0, gtiNew - c80CCD2);
+  const normalOld = Math.max(0, gtiOld - totalDed - c80CCD2);
+
+  const rNew = calcTax(normalNew, 'new', cat);
+  const rOld = calcTax(normalOld, 'old', cat);
+  const spCess = Math.round(specialTax*1.04);
+  const totalNew = rNew.total + spCess;
+  const totalOld = rOld.total + spCess;
+  const savings = totalOld - totalNew;
+  const effRate = normalNew>0 ? (totalNew/normalNew*100) : 0;
+
+  // ─── ITR FORM LOGIC (comprehensive) ────────────────────────────────────
+  const hasCG   = I.stcg15>0 || I.ltcg10>0 || I.stcgOther>0 || I.ltcgOther>0;
+  const hasFnO  = I.fnoProfit !== 0; // F&O always ITR-3
+  const hasBizOrProf = I.businessIncome!==0 || (I.professionalIncome!==0 && !I.presumptive);
+  const hasPresumptive = I.presumptive && I.grossProfessional>0;
+  const gtiMax  = Math.max(gtiNew, gtiOld);
+
+  let itrForm = 'ITR-1';
+  let itrReason = 'Salaried/pension income, 1 house property, other sources ≤ ₹50L';
+
+  if(P.residential === 'nri'){
+    itrForm = 'ITR-2';
+    itrReason = 'NRI/RNOR must use ITR-2 (not ITR-1)';
+  } else if(hasFnO || hasBizOrProf){
+    itrForm = 'ITR-3';
+    itrReason = hasFnO ? 'F&O trading = non-speculative business income' : 'Business / professional income (books of accounts)';
+  } else if(hasPresumptive && !hasFnO){
+    itrForm = 'ITR-4';
+    itrReason = 'Presumptive taxation under Sec 44AD / 44ADA / 44AE';
+  } else if(hasCG){
+    itrForm = 'ITR-2';
+    itrReason = 'Capital gains (equity, MF, property, gold) — use ITR-2';
+  } else if(gtiMax > 5000000){
+    itrForm = 'ITR-2';
+    itrReason = 'Total income > ₹50 lakh — ITR-1 is not applicable';
+  }
+
+  // Edge: presumptive + F&O → F&O always overrides to ITR-3
+  if(hasPresumptive && hasFnO){
+    itrForm = 'ITR-3';
+    itrReason = 'F&O present — ITR-3 required even with presumptive income';
+  }
+
+  // 44ADA limit warning
+  const auditeWarn = I.presumptive && I.grossProfessional > 7500000;
+
+  return {
+    hraEx,hpInc,profNet,totalBiz,ltcgTax,specialTax,spCess,otherSrc,
+    gtiNew,gtiOld,gtiMax,
+    c80C,c80CCD1B,c80D,c80EEA,totalDed,
+    normalNew,normalOld,
+    rNew,rOld,totalNew,totalOld,savings,effRate,
+    itrForm,itrReason,cat,
+    hasCG,hasFnO,hasBizOrProf,hasPresumptive,auditeWarn,
+    savExUsed,c80CCD2
+  };
 }
 
 /* ─── RENDER HELPERS ─────────────────────────────────────────────────────── */
@@ -282,6 +356,7 @@ const TABS=[
   {id:'income',icon:'cash',label:'Income'},
   {id:'deductions',icon:'receipt',label:'Deductions'},
   {id:'compare',icon:'scale',label:'Compare'},
+  {id:'filing',icon:'file',label:'Filing'},
   {id:'ai',icon:'robot',label:'AI Advisor'},
 ];
 
@@ -289,7 +364,21 @@ function bodyProfile(d){
   const P=S.profile;
   const catMsg = P.age>=80?'Super senior citizen (80+) — old regime exemption up to ₹5L'
     :P.age>=60?'Senior citizen (60–79) — old regime exemption up to ₹3L'
-    :'General taxpayer — old regime exemption ₹2.5L · New regime ₹4L (all categories)';
+    :'General taxpayer — old regime ₹2.5L · New regime ₹4L (all categories)';
+
+  const itrData = [
+    ['ITR-1','Sahaj','Salaried/pension + 1 house property + other sources. Total income ≤ ₹50L. Not for NRI or capital gains.',
+      d.itrForm==='ITR-1'],
+    ['ITR-2','','Salaried with capital gains, NRI, total income > ₹50L, foreign assets/income, more than 1 house property.',
+      d.itrForm==='ITR-2'],
+    ['ITR-3','','Business / professional income (books of accounts), F&O trading, speculative income.',
+      d.itrForm==='ITR-3'],
+    ['ITR-4','Sugam','Presumptive taxation — Sec 44AD (business) / 44ADA (professionals) / 44AE (transport). Income ≤ ₹50L.',
+      d.itrForm==='ITR-4'],
+  ];
+
+  const over50L = d.gtiMax > 5000000;
+
   return `
 <div class="section"><div class="section-head">${ICO.user} Taxpayer details</div>
 <div class="grid2">
@@ -297,27 +386,41 @@ function bodyProfile(d){
   <div class="field"><label>PAN number</label><input type="text" value="${P.pan}" oninput="S.profile.pan=this.value.toUpperCase();render()" placeholder="ABCDE1234F" maxlength="10"></div>
 </div>
 <div class="grid2">
-  <div class="field"><label>Age</label><input type="number" class="txt" value="${P.age}" oninput="S.profile.age=Number(this.value)||30;render()" min="18" max="100"></div>
-  <div class="field"><label>Assessment year</label><select><option>AY 2026-27 (FY 2025-26)</option></select></div>
+  <div class="field"><label>Age (as on 31 Mar 2026)</label><input type="number" class="txt" value="${P.age}" oninput="S.profile.age=Number(this.value)||30;render()" min="18" max="100"></div>
+  <div class="field"><label>Assessment year</label><select disabled><option>AY 2026-27 (FY 2025-26)</option></select></div>
 </div>
 <div class="field"><label>Residential status</label><div class="seg">
   <button class="seg-btn ${P.residential==='resident'?'active':''}" onclick="S.profile.residential='resident';render()">Resident (ROR/RNOR)</button>
   <button class="seg-btn ${P.residential==='nri'?'active':''}" onclick="S.profile.residential='nri';render()">Non-Resident (NRI)</button>
 </div></div>
+${P.residential==='nri'?'<div class="box warning">'+ICO.warn+' NRI cannot use ITR-1. You must file <strong>ITR-2</strong>. Only Indian-sourced income is taxable (salary earned in India, rent, capital gains on Indian assets). NRI exemption from new regime rebate 87A.</div>':''}
 <div class="box accent">${ICO.info} ${catMsg}</div>
 </div>
 
-<div class="section"><div class="section-head">${ICO.receipt} ITR form guide (auto-selected)</div>
+<div class="section"><div class="section-head">${ICO.file} ITR form guide — auto-detected based on your income</div>
+${over50L?'<div class="box danger" style="margin-bottom:10px">'+ICO.warn+' Total income exceeds ₹50L — ITR-1 is <strong>not applicable</strong>. ITR-2 or ITR-3 required.</div>':''}
 <div class="itr-guide">
-${[['ITR-1','Sahaj','Salaried/pension + 1 house property + other sources. Total income ≤ ₹50L'],
-   ['ITR-2','','Multiple HPs, capital gains, foreign income, NRI'],
-   ['ITR-3','','Business or profession income — F&O trading goes here'],
-   ['ITR-4','Sugam','Presumptive taxation — Sec 44AD / 44ADA / 44AE']].map(([f,s,desc])=>`
-<div class="itr-row ${d.itrForm===f?'active':''}">
+${itrData.map(([f,s,desc,active])=>`
+<div class="itr-row ${active?'active':''}">
   <div class="itr-name">${f}${s?` <span style="font-size:9px;font-weight:400;color:var(--text3)">(${s})</span>`:''}</div>
-  <div class="itr-desc">${desc}${d.itrForm===f?' ← <strong>Your form</strong>':''}</div>
+  <div class="itr-desc">${desc}</div>
+  ${active?`<span class="itr-why">✓ Your form</span>`:''}
 </div>`).join('')}
-</div></div>`;
+</div>
+${d.itrForm!=='ITR-1'?`<div class="box accent" style="margin-top:8px">${ICO.info} <strong>Why ${d.itrForm}?</strong> ${d.itrReason}</div>`:''}
+${d.auditeWarn?'<div class="box danger" style="margin-top:8px">'+ICO.warn+' Professional receipts > ₹75L — tax audit (Sec 44AB) required. Consult a CA.</div>':''}
+</div>
+
+<div class="section"><div class="section-head">${ICO.calendar} Key filing dates — AY 2026-27</div>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
+${[
+  ['31 Jul 2026','Last date (non-audit cases)','var(--success-bg)','var(--success-border)','var(--success-text)'],
+  ['31 Oct 2026','Last date (audit cases — ITR-3)','var(--warning-bg)','var(--warning-border)','var(--warning-text)'],
+  ['31 Dec 2026','Belated / revised return','var(--accent-bg)','var(--accent-border)','var(--accent-text)'],
+  ['15 Jun 2026','Advance tax: 1st instalment (15%)','var(--surface2)','var(--border)','var(--text2)'],
+].map(([dt,note,bg,bdr,clr])=>`<div style="background:${bg};border:1px solid ${bdr};border-radius:var(--radius);padding:9px 12px"><div style="font-size:13px;font-weight:600;color:${clr}">${dt}</div><div style="font-size:11px;color:var(--text3);margin-top:3px">${note}</div></div>`).join('')}
+</div>
+</div>`;
 }
 
 function bodyIncome(d){
@@ -326,14 +429,15 @@ function bodyIncome(d){
 <div class="section"><div class="section-head">${ICO.cash} Salary / pension</div>
 ${numF('Gross salary (total CTC / salary slip)','grossSalary','income','Include all components: basic, DA, HRA, allowances, perquisites')}
 <div class="grid2">
-  ${numF('Basic salary','basic','income')}
-  ${numF('DA (dearness allowance)','da','income')}
-  ${numF('HRA received','hra','income','For old-regime HRA exemption calculation')}
+  ${numF('Basic salary','basic','income','Used for HRA exemption calculation')}
+  ${numF('DA (dearness allowance)','da','income','For government employees')}
+  ${numF('HRA received','hra','income','For old-regime HRA exemption')}
   ${numF('Annual rent paid','rentPaid','income','If living in rented accommodation')}
 </div>
 ${togR('Metro city? (Mumbai / Delhi / Chennai / Kolkata)','isMetro')}
-${I.hra>0&&I.rentPaid>0?`<div class="box success">${ICO.check} HRA exemption (old regime): ${FULL(d.hraEx)}<br><span style="font-size:10px">= min(HRA received, Rent − 10% basic, ${I.isMetro?'50%':'40%'} of basic)</span></div>`:''}
-${numF('LTA (leave travel allowance claimed)','lta','income','Old regime exemption. 2 journeys in a 4-year block')}
+${I.hra>0&&I.rentPaid>0?`<div class="box success">${ICO.check} HRA exemption (old regime): ${FULL(d.hraEx)} = min(HRA received, Rent − 10% basic, ${I.isMetro?'50%':'40%'} of basic+DA)</div>`:''}
+${numF('LTA (leave travel allowance claimed)','lta','income','Old regime only. 2 journeys in a 4-year block')}
+<div class="box info">Standard deduction: ₹75,000 (new regime) · ₹50,000 (old regime) — applied automatically above</div>
 </div>
 
 <div class="section"><div class="section-head">${ICO.receipt} House property</div>
@@ -342,43 +446,45 @@ ${I.selfOccupied
   ? numF('Home loan interest (Section 24b)','homeLoanInterestHP','income','Max deduction ₹2,00,000 for self-occupied',200000)
   : numF('Annual rent received','annualRent','income')+numF('Municipal tax paid','municipalTax','income')+numF('Home loan interest (let-out)','homeLoanInterestHP','income','No ceiling for let-out property')
 }
-<div class="box info">${d.hpInc<0?`Loss on HP: ${FULL(d.hpInc)} — can offset salary income up to ₹2L`:`HP income: ${FULL(d.hpInc)}`}</div>
+<div class="box info">${d.hpInc<0?`Loss on HP: ${FULL(d.hpInc)} — can offset salary income up to ₹2L (old regime)`:`HP income: ${FULL(d.hpInc)}`}</div>
 </div>
 
-<div class="section"><div class="section-head">${ICO.cash} Business / profession</div>
+<div class="section"><div class="section-head">${ICO.cash} Business / profession / F&O</div>
 ${togR('Presumptive taxation (44AD / 44ADA)?','presumptive')}
 ${I.presumptive?`
-${numF('Gross professional / business receipts','grossProfessional','income','Doctors, CAs, lawyers → 44ADA (max ₹75L). Traders → 44AD (max ₹3Cr)')}
+${numF('Gross professional / business receipts','grossProfessional','income','Doctors, CAs, lawyers → 44ADA max ₹75L · Traders → 44AD max ₹3Cr')}
 <div class="field"><label>Presumptive rate</label><select onchange="S.income.presumptiveRate=Number(this.value);render()">
-  <option value="50" ${I.presumptiveRate==50?'selected':''}>50% — Section 44ADA (professionals)</option>
-  <option value="6" ${I.presumptiveRate==6?'selected':''}>6% — Section 44AD (digital/bank transactions)</option>
+  <option value="50" ${I.presumptiveRate==50?'selected':''}>50% — Section 44ADA (professionals: doctors, lawyers, CAs)</option>
+  <option value="6" ${I.presumptiveRate==6?'selected':''}>6% — Section 44AD (digital / bank transactions)</option>
   <option value="8" ${I.presumptiveRate==8?'selected':''}>8% — Section 44AD (cash business)</option>
 </select></div>
-<div class="box success">${ICO.check} Net taxable income: ${FULL(d.profNet)}</div>
+<div class="box success">${ICO.check} Net presumptive income: ${FULL(d.profNet)}</div>
 `:`
-${numF('Business income (net profit)','businessIncome','income')}
-${numF('Professional income (net after expenses)','professionalIncome','income')}
+${numF('Business income (net profit after expenses)','businessIncome','income','P&L as per books of accounts')}
+${numF('Professional income (net after expenses)','professionalIncome','income','Doctors, CAs, architects — not under presumptive')}
 `}
-${numF('F&O profit / loss (net)','fnoProfit','income','Futures & Options = non-speculative business. Report in Schedule BP. Carry forward losses 8 yrs')}
+${numF('F&O profit / loss (net for the year)','fnoProfit','income','Futures & Options = non-speculative business. Must use ITR-3. Losses carry forward 8 yrs')}
+${d.hasFnO?`<div class="box warning">${ICO.warn} F&O income requires <strong>ITR-3</strong>. Cannot use ITR-1, ITR-2, or ITR-4 even if you also have salary income.</div>`:''}
 </div>
 
-<div class="section"><div class="section-head">${ICO.scale} Capital gains — Budget 2024 rates</div>
-<div class="box accent" style="margin-bottom:10px">Listed equity/MF: STCG 20% · LTCG 12.5% with ₹1.25L exemption · Holding &gt;12 months = long-term</div>
+<div class="section"><div class="section-head">${ICO.scale} Capital gains — Budget 2024 revised rates</div>
+<div class="box accent" style="margin-bottom:10px">Listed equity/equity MF: STCG taxed @ <strong>20%</strong> · LTCG @ <strong>12.5%</strong> with ₹1.25L exemption · Holding &gt;12 months = long-term. (Rates revised 23 Jul 2024)</div>
 <div class="grid2">
-  ${numF('STCG — equity/MF (Sec 111A)','stcg15','income','Short-term on listed equity & equity MF — taxed at 20%')}
-  ${numF('STCG — other assets','stcgOther','income','Debt MF, gold, property (held &lt;2/3 yrs) — taxed at slab rate')}
-  ${numF('LTCG — equity/MF (Sec 112A)','ltcg10','income','12.5% on gains exceeding ₹1.25L')}
-  ${numF('LTCG — other assets','ltcgOther','income','Property, gold, debt MF — 20% without indexation')}
+  ${numF('STCG — listed equity / equity MF (Sec 111A)','stcg15','income','Short-term (≤12 months). Taxed at flat 20% (revised from 15%)')}
+  ${numF('STCG — other assets (debt MF, property, gold)','stcgOther','income','Taxed at applicable slab rate. Holding < 2 yrs for property, < 3 yrs for debt MF')}
+  ${numF('LTCG — listed equity / equity MF (Sec 112A)','ltcg10','income','12.5% tax on gains exceeding ₹1.25L. Holding > 12 months')}
+  ${numF('LTCG — other assets (property, gold)','ltcgOther','income','20% without indexation (Budget 2024). Holding > 2 yrs for property')}
 </div>
 ${I.ltcg10>0?`<div class="box success">${ICO.check} LTCG exempt: ₹1,25,000 | Taxable LTCG: ${FULL(d.ltcgTax)} @ 12.5%</div>`:''}
+${d.hasCG&&!d.hasFnO?`<div class="box warning">${ICO.warn} Capital gains income requires <strong>ITR-2</strong> (not ITR-1).</div>`:''}
 </div>
 
 <div class="section"><div class="section-head">${ICO.cash} Other sources</div>
 <div class="grid2">
-  ${numF('FD / RD interest','fdInterest','income','Fully taxable. Bank deducts TDS @10%')}
-  ${numF('Savings account interest','savingsInterest','income','₹10K exempt u/s 80TTA (₹50K for seniors 80TTB)')}
-  ${numF('Dividends','dividends','income','Taxable in your hands. TDS @10% if >₹5,000/company')}
-  ${numF('Other income','otherIncome','income','Online gaming (30% flat), gifts, lottery, etc.')}
+  ${numF('FD / RD interest','fdInterest','income','Fully taxable. Bank deducts TDS @10% if >₹40K (₹50K for seniors)')}
+  ${numF('Savings account interest','savingsInterest','income',`₹${d.cat==='senior'?'50,000 exempt u/s 80TTB (senior)':'10,000 exempt u/s 80TTA'}`)}
+  ${numF('Dividends','dividends','income','Taxable in your hands @ slab rate. TDS @10% if >₹5,000/company')}
+  ${numF('Other income','otherIncome','income','Online gaming (30% flat tax), gifts >₹50K, lottery, etc.')}
 </div>
 </div>`;
 }
@@ -386,16 +492,21 @@ ${I.ltcg10>0?`<div class="box success">${ICO.check} LTCG exempt: ₹1,25,000 | T
 function bodyDed(d){
   const D=S.ded, P=S.profile;
   return `
-<div class="box warning" style="margin-bottom:16px">${ICO.warn} These deductions apply <strong>only under old regime.</strong> New regime does not allow Chapter VI-A deductions (except employer NPS u/s 80CCD(2)).</div>
+<div class="box warning" style="margin-bottom:16px">${ICO.warn} Deductions below (except 80CCD(2)) apply <strong>only under old regime.</strong> New regime does not allow Chapter VI-A deductions (except employer NPS u/s 80CCD(2)).</div>
 
 <div class="section"><div class="section-head">Sec 80C — max ₹1,50,000</div>
-<div class="box info" style="margin-bottom:8px;font-size:11px">EPF · PPF · ELSS · LIC premium · NSC · SCSS · Sukanya Samriddhi · Home loan principal repayment · Children's tuition fees (max 2 children)</div>
+<div class="box info" style="margin-bottom:8px;font-size:11px">EPF · PPF · ELSS · LIC premium · NSC · SCSS · Sukanya Samriddhi · Home loan principal · Children's tuition (max 2 kids) · Tax-saver FD (5yr)</div>
 ${numF('Total 80C investments / payments','c80C','ded','',150000)}
 ${D.c80C>150000?'<div class="box danger">Capped at ₹1,50,000</div>':''}
 </div>
 
-<div class="section"><div class="section-head">Sec 80CCD(1B) — NPS additional</div>
-${numF('Additional NPS contribution','c80CCD','ded','Separate deduction over and above 80C. Saves extra ₹15,000+ tax at 30% bracket',50000)}
+<div class="section"><div class="section-head">Sec 80CCD(1B) — NPS self-contribution (old regime only)</div>
+${numF('Additional NPS self-contribution','c80CCD1B','ded','Separate deduction over and above 80C. Max ₹50,000. Available only under old regime.',50000)}
+</div>
+
+<div class="section"><div class="section-head" style="color:var(--success-text)">Sec 80CCD(2) — Employer NPS contribution ✓ <span style="font-size:10px;font-weight:400;background:var(--success-bg);border:1px solid var(--success-border);padding:2px 7px;border-radius:10px;margin-left:4px">Allowed in BOTH regimes</span></div>
+${numF('Employer\'s NPS contribution (CPS/NPS)','c80CCD2','ded','Deductible under BOTH old & new regime. Max 14% of salary for govt, 10% for private sector. Enter actual employer contribution amount.')}
+<div class="box success">${ICO.check} Effective deduction this year: ${FULL(d.c80CCD2)} (auto-capped at 14% of gross salary)</div>
 </div>
 
 <div class="section"><div class="section-head">Sec 80D — health insurance premiums</div>
@@ -404,25 +515,39 @@ ${numF("Parents' premium",'c80D_par','ded','Max ₹50,000 if parents are senior 
 </div>
 
 <div class="section"><div class="section-head">Sec 80E — education loan interest</div>
-${numF('Education loan interest paid','c80E','ded','No upper limit. Only interest portion eligible. Available for 8 consecutive years')}
+${numF('Education loan interest paid','c80E','ded','No upper limit. Only interest portion eligible. Available for 8 consecutive years from start of repayment')}
+</div>
+
+<div class="section"><div class="section-head">Sec 80EEA — affordable housing loan interest</div>
+${numF('Home loan interest (affordable housing)','c80EEA','ded','Additional ₹1.5L deduction for first-time home buyers. Loan sanctioned between Apr 2019 – Mar 2022. Stamp duty ≤ ₹45L.',150000)}
 </div>
 
 <div class="section"><div class="section-head">Sec 80TTA / 80TTB — savings interest</div>
-${numF('Savings account interest (to exempt)','c80TTA','ded',`Max ₹${P.age>=60?'50,000 under 80TTB for senior citizens':'10,000 under 80TTA'}`,P.age>=60?50000:10000)}
+${numF(`${P.age>=60?'Savings + FD interest (80TTB)':'Savings account interest (80TTA)'}  `,'c80TTA','ded',`Max ₹${P.age>=60?'50,000 under 80TTB for senior citizens':'10,000 under 80TTA'}`,P.age>=60?50000:10000)}
 </div>
 
 <div class="section"><div class="section-head">Sec 80G — donations</div>
-${numF('Eligible donations','c80G','ded','50% or 100% deductible depending on organisation. Subject to 10% of adjusted GTI limit')}
+${numF('Eligible donations (80G)','c80G','ded','50% or 100% deductible depending on institution. Subject to 10% of adjusted GTI cap')}
 </div>
 
-<div class="section"><div class="section-head">Deduction summary (old regime)</div>
-${[['Sec 80C',d.c80C],['Sec 80CCD(1B) — NPS',d.c80CCD],['Sec 80D — health insurance',d.c80D],['Sec 80E — education loan',S.ded.c80E],['Sec 80G — donations',S.ded.c80G],['HRA exemption',d.hraEx]].map(([k,v])=>`<div class="ded-row"><span>${k}</span><span>${FULL(v)}</span></div>`).join('')}
-<div class="ded-tot"><span>Total deductions</span><span style="color:var(--success)">${FULL(d.totalDed+d.hraEx)}</span></div>
+<div class="section"><div class="section-head">Old-regime deduction summary</div>
+${[
+  ['Sec 80C',d.c80C],
+  ['Sec 80CCD(1B) — NPS self',d.c80CCD1B],
+  ['Sec 80CCD(2) — Employer NPS',d.c80CCD2],
+  ['Sec 80D — health insurance',d.c80D],
+  ['Sec 80E — education loan',S.ded.c80E],
+  ['Sec 80EEA — affordable housing',d.c80EEA],
+  ['Sec 80G — donations',S.ded.c80G],
+  ['HRA exemption (old regime)',d.hraEx],
+].map(([k,v])=>v>0?`<div class="ded-row"><span>${k}</span><span>${FULL(v)}</span></div>`:'').join('')}
+<div class="ded-tot"><span>Total old-regime deductions</span><span style="color:var(--success)">${FULL(d.totalDed+d.hraEx+d.c80CCD2)}</span></div>
 </div>`;
 }
 
 function bodyCompare(d){
   const rn=d.totalNew, ro=d.totalOld, sv=d.savings, best=sv>=0;
+  const mrNew = d.rNew.marginalRelief||0;
   return `
 <div class="cmp-grid">
   <div class="rc ${best?'best':''}">
@@ -431,6 +556,8 @@ function bodyCompare(d){
     <div class="rc-tax">${FULL(rn)}</div>
     <div class="rc-sub">on ${INR(d.normalNew)} taxable income</div>
     <div class="rc-sub" style="margin-top:6px">Std deduction ₹75,000 · No Chap VI-A</div>
+    ${d.rNew.rebate>0?`<div class="rc-sub" style="color:var(--success)">Rebate 87A: ${FULL(d.rNew.rebate)}</div>`:''}
+    ${mrNew>0?`<div class="relief-chip">Marginal relief: ${FULL(mrNew)}</div>`:''}
   </div>
   <div class="rc ${!best?'best':''}">
     ${!best?'<div class="best-badge">Better choice</div>':''}
@@ -438,16 +565,19 @@ function bodyCompare(d){
     <div class="rc-tax">${FULL(ro)}</div>
     <div class="rc-sub">on ${INR(d.normalOld)} taxable income</div>
     <div class="rc-sub" style="margin-top:6px">Std deduction ₹50,000 · HRA/80C/80D allowed</div>
+    ${d.rOld.rebate>0?`<div class="rc-sub" style="color:var(--success)">Rebate 87A: ${FULL(d.rOld.rebate)}</div>`:''}
   </div>
 </div>
 
 <div class="sav-box" style="background:var(${best?'--success-bg':'--accent-bg'});border-color:var(${best?'--success-border':'--accent-border'})">
   <div style="font-size:12px;color:var(${best?'--success-text':'--accent-text'})">${best?'New regime saves you':'Old regime saves you'}</div>
   <div style="font-size:30px;font-weight:600;color:var(${best?'--success-text':'--accent-text'})">${FULL(Math.abs(sv))}</div>
-  <div style="font-size:11px;color:var(--text3);margin-top:4px">per year · Switch regime at the start of each financial year</div>
+  <div style="font-size:11px;color:var(--text3);margin-top:4px">per year · Switch regime at the start of each financial year (form 10-IE for business)</div>
 </div>
 
-<div class="section"><div class="section-head">New regime slabs — FY 2025-26</div>
+${mrNew>0?`<div class="box warning">${ICO.warn} <strong>Marginal relief applied:</strong> Your income (${INR(d.normalNew)}) is just above ₹12L. Tax has been reduced so you pay no more than the excess income over ₹12L.</div>`:''}
+
+<div class="section"><div class="section-head">New regime slabs — FY 2025-26 (Budget 2025)</div>
 <table><thead><tr><th>Income range</th><th>Rate</th><th>Tax on slab</th></tr></thead><tbody>
 ${[['₹0 – ₹4,00,000','0%','Nil'],['₹4L – ₹8L','5%','₹20,000'],['₹8L – ₹12L','10%','₹40,000'],['₹12L – ₹16L','15%','₹60,000'],['₹16L – ₹20L','20%','₹80,000'],['₹20L – ₹24L','25%','₹1,00,000'],['Above ₹24L','30%','—']].map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}
 </tbody></table>
@@ -455,23 +585,77 @@ ${[['₹0 – ₹4,00,000','0%','Nil'],['₹4L – ₹8L','5%','₹20,000'],['�
 </div>
 
 <div class="section"><div class="section-head">Old regime slabs</div>
-<table><thead><tr><th>Income range</th><th>Rate</th></tr></thead><tbody>
-${[['₹0 – ₹2.5L (₹3L senior · ₹5L super-senior)','0%'],['₹2.5L – ₹5L','5%'],['₹5L – ₹10L','20%'],['Above ₹10L','30%']].map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}
+<table><thead><tr><th>Income range</th><th>General</th><th>Senior (60+)</th><th>Super-senior (80+)</th></tr></thead><tbody>
+<tr><td>Up to ₹2.5L / ₹3L / ₹5L</td><td>0%</td><td>0%</td><td>0%</td></tr>
+<tr><td>₹2.5L – ₹5L</td><td>5%</td><td>5%</td><td>Nil</td></tr>
+<tr><td>₹5L – ₹10L</td><td>20%</td><td>20%</td><td>20%</td></tr>
+<tr><td>Above ₹10L</td><td>30%</td><td>30%</td><td>30%</td></tr>
 </tbody></table>
-<div class="box info" style="margin-top:8px">Surcharge: 10% (50L–1Cr), 15% (1–2Cr), 25% (2–5Cr), 37% (>5Cr). New regime max: 25%. Cess: 4% on all.</div>
+<div class="box info" style="margin-top:8px">Surcharge — Old regime: 10% (₹50L–1Cr), 15% (1–2Cr), 25% (2–5Cr), 37% (>5Cr). New regime: max 25% (Budget 2024 cap). Health & Education Cess: 4% on all.</div>
 </div>
 
-<div class="section"><div class="section-head">Advance tax schedule${rn>10000?' (due on new-regime estimate)':''}</div>
+<div class="section"><div class="section-head">Advance tax schedule${rn>10000?' (based on new-regime estimate)':''}</div>
 ${rn>10000?`<div class="adv-grid">
-${[['15 Jun','15%',rn*.15],['15 Sep','45%',rn*.45],['15 Dec','75%',rn*.75],['15 Mar','100%',rn]].map(([dt,p,a])=>`<div class="adv-c"><div class="adv-date">By ${dt}</div><div class="adv-pct">${p} cumulative</div><div class="adv-amt">${FULL(a)}</div></div>`).join('')}
-</div>`:`<div class="box success">${ICO.check} Tax liability ≤ ₹10,000 — advance tax not required. Pay all tax by 31 March.</div>`}
+${[['15 Jun 2026','15%',rn*.15],['15 Sep 2026','45%',rn*.45],['15 Dec 2026','75%',rn*.75],['15 Mar 2027','100%',rn]].map(([dt,p,a])=>`<div class="adv-c"><div class="adv-date">By ${dt}</div><div class="adv-pct">${p} cumulative</div><div class="adv-amt">${FULL(a)}</div></div>`).join('')}
+</div><div class="box info" style="margin-top:8px">Interest u/s 234B/234C if advance tax not paid on time. Salaried with only TDS deducted are exempt.</div>`
+:`<div class="box success">${ICO.check} Tax liability ≤ ₹10,000 — advance tax not required. Pay all tax by 31 March 2027.</div>`}
+</div>`;
+}
+
+function bodyFiling(d){
+  const docsNeeded = [
+    ['Form 16','Salary TDS certificate from employer. Part A: TDS summary. Part B: salary breakup & deductions.'],
+    ['Form 16A / 26AS / AIS','TDS on FD interest, dividend, rent. Download from TRACES portal. Cross-check with AIS on Income Tax portal.'],
+    ['Form 26AS / AIS / TIS','Annual Information Statement — shows all tax credits, high-value transactions, SFT data. Mandatory to review.'],
+    d.hasCG?['Capital gain statements','Broker statement (Zerodha/Groww etc.) or mutual fund CAMS/KFintech statement for the full year.']:null,
+    d.hasFnO?['P&L statement (F&O)','Download from broker. Include all open/closed positions. May need STT certificate.']:null,
+    d.hasPresumptive?['Bank statement (full year)','For 44ADA/44AD presumptive: show total receipts. If cash > 5% of receipts, rate is 8% not 6%.']:null,
+    S.income.homeLoanInterestHP>0?['Home loan interest certificate','From bank showing interest paid in FY 2025-26 separately from principal.']:null,
+    S.ded.c80C>0?['80C proofs','PPF passbook, ELSS statement, LIC receipts, EPF passbook, tuition fee receipts.']:null,
+    S.ded.c80D_self>0||S.ded.c80D_par>0?['Health insurance premium receipts','For 80D claim. Include policy schedule showing coverage.']:null,
+    S.ded.c80E>0?['Education loan certificate','From bank/NBFC showing interest paid in FY 2025-26.']:null,
+    ['Aadhaar + PAN','Mandatory for filing. Link Aadhaar-PAN if not done (site: incometax.gov.in).'],
+    ['Bank account details','IFSC + account number for refund credit. Pre-validate on IT portal.'],
+  ].filter(Boolean);
+
+  const steps = [
+    ['Register / login','Go to incometax.gov.in → Login with PAN as user ID. New users: Register first.'],
+    ['Download AIS / 26AS','Under "e-File" → "Income Tax Return" → check pre-filled data. Reconcile with Form 16.'],
+    ['Select ITR form','e-File → File Income Tax Return → AY 2026-27 → Online → Select '+d.itrForm],
+    ['Fill & verify income','Enter income details. Pre-filled data may have errors — always verify each head.'],
+    ['Claim deductions','Under old regime: enter 80C, 80D, 80CCD(2), HRA etc. For new regime: only 80CCD(2) applies.'],
+    ['Regime selection','Choose old or new regime. Salaried employees can switch every year. Business owners: once you switch from old, you cannot return to old regime easily.'],
+    ['Compute tax & pay','If tax payable after TDS > ₹0, pay self-assessment tax (Challan 280) before submitting.'],
+    ['e-Verify','Verify within 30 days of filing using Aadhaar OTP / net banking / DSC. Unverified return = not filed.'],
+  ];
+
+  return `
+<div class="section"><div class="section-head">${ICO.file} Documents checklist — ${d.itrForm}</div>
+${docsNeeded.map(([doc,desc])=>`<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;align-items:flex-start"><div style="background:var(--success);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:1px">${ICO.check}</div><div><strong>${doc}</strong> — ${desc}</div></div>`).join('')}
+</div>
+
+<div class="section"><div class="section-head">${ICO.calendar} Step-by-step filing guide</div>
+${steps.map(([step,desc],i)=>`<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;align-items:flex-start"><div style="background:var(--accent);color:white;border-radius:50%;min-width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0">${i+1}</div><div><strong>${step}</strong><div style="color:var(--text3);margin-top:2px">${desc}</div></div></div>`).join('')}
+</div>
+
+<div class="section"><div class="section-head">${ICO.warn} Common mistakes to avoid</div>
+<div class="box danger">
+${['Not reporting FD interest (TDS was deducted but interest still taxable)',
+  'Skipping capital gains — even small ELSS/MF redemptions must be reported',
+  'Not reconciling AIS — mismatches trigger notices',
+  'Choosing wrong ITR form — using ITR-1 when ITR-2 or ITR-3 required',
+  'Not e-verifying within 30 days — return treated as not filed',
+  'Missing advance tax instalments — 234B / 234C interest applies',
+  '44ADA professionals: if receipts > ₹75L, presumptive scheme not available',
+].map(e=>`• ${e}`).join('<br>')}
+</div>
 </div>`;
 }
 
 function bodyAI(d){
   const msgs=S.messages;
   return `
-<div class="box accent" style="margin-bottom:12px">${ICO.robot} AI advisor — ask anything about your taxes. Uses your income data as context.</div>
+<div class="box accent" style="margin-bottom:12px">${ICO.robot} AI advisor — powered by Groq · llama-3.3-70b. Uses your entered income data as context.</div>
 
 <div class="key-row">
   <input id="groqKey" type="password" value="${S.groqKey}" placeholder="Paste your Groq API key (free at console.groq.com)" oninput="S.groqKey=this.value;localStorage.setItem('itax_groq_key',this.value)">
@@ -479,12 +663,12 @@ function bodyAI(d){
 </div>
 
 <div class="qchips">
-${['Which regime suits me?','How to save more tax?','When to pay advance tax?','Documents needed for ITR?','Explain my 80C options','Is F&O income taxable?','What is 44ADA?'].map(q=>`<button class="qchip" onclick="setQ('${q}')">${q}</button>`).join('')}
+${['Which regime suits me?','How to save more tax?','When to pay advance tax?','Documents needed for ${d.itrForm}?','Explain my 80C options','Is F&O income taxable?','What is 44ADA?','How to compute HRA exemption?','What is marginal relief?'].map(q=>`<button class="qchip" onclick="setQ(\`${q}\`)">${q}</button>`).join('')}
 </div>
 
 <div class="chat-area" id="chatArea">
-${msgs.length===0?`<div class="chat-empty">${ICO.info}<br><br>Ask anything about your Indian taxes<br><span style="font-size:11px">I have your income profile as context</span></div>`:
-msgs.map(m=>`<div class="msg-row ${m.role}"><div class="msg-bubble">${m.content.replace(/\n/g,'<br>')}</div></div>`).join('')}
+${msgs.length===0?`<div class="chat-empty">${ICO.info}<br><br>Ask anything about your Indian taxes<br><span style="font-size:11px">I have your income profile as context for personalised advice</span></div>`:
+msgs.map(m=>`<div class="msg-row ${m.role}"><div class="msg-bubble">${m.content.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div></div>`).join('')}
 ${S.aiLoading?`<div class="msg-row assistant"><div class="msg-bubble" style="color:var(--text3)">Thinking…</div></div>`:''}
 </div>
 <div class="chat-input-row">
@@ -498,7 +682,7 @@ async function testKey(){
   if(!S.groqKey){alert('Enter a Groq API key first.');return;}
   try{
     const r=await fetch('https://api.groq.com/openai/v1/models',{headers:{Authorization:`Bearer ${S.groqKey}`}});
-    if(r.ok) alert('Key is valid!'); else alert('Invalid key. Check console.groq.com');
+    if(r.ok) alert('✅ Key is valid!'); else alert('❌ Invalid key. Check console.groq.com');
   }catch(e){alert('Network error.');}
 }
 
@@ -509,14 +693,46 @@ async function sendAI(){
   const d=derive();
   S.messages.push({role:'user',content:q});
   S.userInput=''; S.aiLoading=true; render();
-  const sys=`You are an expert Indian tax advisor (FY 2025-26 / AY 2026-27).
-USER DATA: Name ${S.profile.name||'User'}, Age ${S.profile.age}, ${S.profile.residential}.
-Gross Salary: ${FULL(S.income.grossSalary)} | Taxable (New): ${FULL(d.normalNew)} | Taxable (Old): ${FULL(d.normalOld)}
-Tax (New regime): ${FULL(d.totalNew)} | Tax (Old regime): ${FULL(d.totalOld)}
-Recommendation: ${d.savings>=0?'New regime (saves '+FULL(d.savings)+')':'Old regime (saves '+FULL(-d.savings)+')'}
-ITR Form: ${d.itrForm} | 80C used: ${FULL(S.ded.c80C)}/₹1,50,000 | F&O: ${FULL(S.income.fnoProfit)} | Presumptive: ${S.income.presumptive}
-KNOWLEDGE: New regime slabs 0-4L:0%, 4-8L:5%, 8-12L:10%, 12-16L:15%, 16-20L:20%, 20-24L:25%, >24L:30%. Std ded ₹75K new/₹50K old. Rebate 87A: ₹60K rebate if income≤₹12L (zero tax to ₹12.75L salaried). STCG equity 20%, LTCG equity 12.5% with ₹1.25L exempt. 44ADA: 50% presumptive for professionals up to ₹75L. Advance tax if liability>₹10K. F&O=non-speculative business ITR-3. Cess 4%.
-Give concise, practical advice with ₹ amounts using user's actual numbers.`;
+
+  const sys=`You are an expert Indian tax advisor for FY 2025-26 (AY 2026-27). Be concise, use ₹ amounts, and reference the user's actual numbers.
+
+USER PROFILE: Name: ${S.profile.name||'User'} | Age: ${S.profile.age} (${d.cat}) | Status: ${S.profile.residential}
+
+INCOME SUMMARY:
+- Gross salary: ${FULL(S.income.grossSalary)} | HRA received: ${FULL(S.income.hra)} | HRA exempt: ${FULL(d.hraEx)}
+- House property income/loss: ${FULL(d.hpInc)}
+- Business/professional income: ${FULL(d.totalBiz)} | F&O: ${FULL(S.income.fnoProfit)} | Presumptive: ${S.income.presumptive}
+- Capital gains (STCG equity): ${FULL(S.income.stcg15)} | LTCG equity: ${FULL(S.income.ltcg10)} | LTCG exempt: ₹1,25,000
+- Other sources: ${FULL(d.otherSrc)}
+- GTI (new regime): ${FULL(d.gtiNew)} | GTI (old regime): ${FULL(d.gtiOld)}
+
+DEDUCTIONS (old regime):
+- 80C: ${FULL(d.c80C)}/₹1,50,000 | 80CCD(1B) NPS: ${FULL(d.c80CCD1B)}/₹50,000 | 80D: ${FULL(d.c80D)}
+- 80CCD(2) employer NPS: ${FULL(d.c80CCD2)} (allowed in BOTH regimes)
+- Total deductions: ${FULL(d.totalDed+d.hraEx+d.c80CCD2)}
+
+TAX COMPUTED:
+- New regime taxable: ${FULL(d.normalNew)} | Tax: ${FULL(d.totalNew)}${d.rNew.rebate>0?' | Rebate 87A: '+FULL(d.rNew.rebate):''}${d.rNew.marginalRelief>0?' | Marginal relief: '+FULL(d.rNew.marginalRelief):''}
+- Old regime taxable: ${FULL(d.normalOld)} | Tax: ${FULL(d.totalOld)}${d.rOld.rebate>0?' | Rebate 87A: '+FULL(d.rOld.rebate):''}
+- RECOMMENDATION: ${d.savings>=0?'New regime saves '+FULL(d.savings):'Old regime saves '+FULL(-d.savings)}
+- Effective tax rate: ${d.effRate.toFixed(1)}%
+- ITR form: ${d.itrForm} | Reason: ${d.itrReason}
+
+KEY TAX RULES FY 2025-26:
+- New regime slabs: 0-4L:0%, 4-8L:5%, 8-12L:10%, 12-16L:15%, 16-20L:20%, 20-24L:25%, >24L:30%
+- New regime rebate 87A: ₹60,000 if income ≤ ₹12L (zero tax). Salaried: ₹12.75L after std ded ₹75K
+- Old regime rebate 87A: ₹12,500 if income ≤ ₹5L
+- STCG listed equity/MF: 20% (revised from 15% from 23 Jul 2024). LTCG listed: 12.5% above ₹1.25L
+- LTCG other (property, gold): 20% without indexation (Budget 2024)
+- 44ADA: 50% presumptive for professionals up to ₹75L gross
+- 44AD: 6%/8% for businesses up to ₹3Cr
+- F&O = non-speculative business → always ITR-3
+- NRI → ITR-2 (not ITR-1). Income >₹50L → ITR-2
+- New regime surcharge capped at 25% (Budget 2024). Old regime: up to 37% for >₹5Cr
+- 80CCD(2) employer NPS: max 14% of salary for govt, 10% for private — DEDUCTIBLE IN BOTH REGIMES
+- Advance tax if liability >₹10K: Jun 15 (15%), Sep 15 (45%), Dec 15 (75%), Mar 15 (100%)
+- e-Verify within 30 days of filing. Filing deadline: 31 Jul 2026 for non-audit`;
+
   try{
     const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
       method:'POST',
@@ -524,9 +740,10 @@ Give concise, practical advice with ₹ amounts using user's actual numbers.`;
       body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1024,messages:[{role:'system',content:sys},...S.messages.map(m=>({role:m.role,content:m.content}))]})
     });
     const data=await r.json();
-    S.messages.push({role:'assistant',content:data.choices?.[0]?.message?.content||'No response.'});
+    S.messages.push({role:'assistant',content:data.choices?.[0]?.message?.content||'No response received.'});
   }catch(e){S.messages.push({role:'assistant',content:'⚠️ Error: '+e.message});}
   S.aiLoading=false; render();
+  setTimeout(()=>{const ca=document.getElementById('chatArea');if(ca)ca.scrollTop=ca.scrollHeight;},50);
 }
 
 /* ─── MAIN RENDER ────────────────────────────────────────────────────────── */
@@ -543,15 +760,17 @@ function render(){
 
   document.getElementById('badgeRow').innerHTML=`
     <span class="badge badge-itr">📄 ${itrForm}</span>
-    <span class="badge badge-reg">✓ ${best?'New regime better':'Old regime better'}</span>
-    <span class="badge badge-ay">AY 2026-27</span>`;
+    <span class="badge badge-reg">✓ ${best?'New regime':'Old regime'} better</span>
+    <span class="badge badge-ay">AY 2026-27</span>
+    ${d.rNew.marginalRelief>0?'<span class="badge badge-warn">⚡ Marginal relief applied</span>':''}
+    ${d.auditeWarn?'<span class="badge badge-warn">⚠️ Tax audit required</span>':''}`;
 
   document.getElementById('nav').innerHTML=TABS.map(t=>`
     <button class="nav-btn ${S.tab===t.id?'active':''}" onclick="setTab('${t.id}')">
       ${ICO[t.icon]||''}${t.label}
     </button>`).join('');
 
-  const fns={profile:bodyProfile,income:bodyIncome,deductions:bodyDed,compare:bodyCompare,ai:bodyAI};
+  const fns={profile:bodyProfile,income:bodyIncome,deductions:bodyDed,compare:bodyCompare,filing:bodyFiling,ai:bodyAI};
   document.getElementById('body').innerHTML=(fns[S.tab]||bodyProfile)(d);
 
   if(S.tab==='ai'){const ca=document.getElementById('chatArea');if(ca)ca.scrollTop=ca.scrollHeight;}
