@@ -186,12 +186,16 @@ const S = {
     presumptive:false, grossProfessional:0, presumptiveRate:50,
     businessIncome:0, professionalIncome:0, fnoProfit:0,
     stcg15:0, stcgOther:0, ltcg10:0, ltcgOther:0,
-    fdInterest:0, savingsInterest:0, dividends:0, otherIncome:0
+    fdInterest:0, savingsInterest:0, dividends:0,
+    onlineGaming:0,   // flat 30% + cess — separate from slab income
+    otherIncome:0,
+    tdsPaid:0         // TDS already deducted (Form 16 / 26AS total)
   },
   ded:{
     c80C:0, c80CCD1B:0, c80CCD2:0,
-    c80D_self:0, c80D_par:0, c80E:0, c80G:0, c80TTA:0,
+    c80D_self:0, c80D_par:0, c80E:0, c80G:0,
     c80EEA:0
+    // 80TTA/80TTB auto-applied from savings interest entered in income tab
   },
   messages:[], aiLoading:false, userInput:''
 };
@@ -222,16 +226,19 @@ function surcharge(tax, inc, regime){
   return inc<=1e7?tax*.10:inc<=2e7?tax*.15:inc<=5e7?tax*.25:tax*.37;
 }
 
-function calcTax(inc, regime, cat='general'){
+function calcTax(inc, regime, cat='general', isNri=false){
   if(inc<=0) return {slab:0,rebate:0,sur:0,cess:0,total:0,marginalRelief:0};
   const slabs = regime==='new'?NEW_SLABS:(OLD_SLABS[cat]||OLD_SLABS.general);
   const slab = slabTax(inc, slabs);
   let rebate = 0;
-  if(regime==='new'&&inc<=1200000) rebate=Math.min(slab,60000);
-  if(regime==='old'&&inc<=500000) rebate=Math.min(slab,12500);
-  // Marginal relief: if just above 12L in new regime, tax shouldn't exceed excess over 12L
+  // NRI not eligible for rebate 87A under either regime
+  if(!isNri){
+    if(regime==='new'&&inc<=1200000) rebate=Math.min(slab,60000);
+    if(regime==='old'&&inc<=500000)  rebate=Math.min(slab,12500);
+  }
+  // Marginal relief: income just above ₹12L in new regime → tax ≤ excess over ₹12L
   let marginalRelief = 0;
-  if(regime==='new' && inc>1200000 && inc<=1300000){
+  if(!isNri && regime==='new' && inc>1200000 && inc<=1275000){
     const taxAfterRebate = Math.max(0, slab - rebate);
     const excess = inc - 1200000;
     if(taxAfterRebate > excess){ marginalRelief = taxAfterRebate - excess; }
@@ -249,6 +256,7 @@ function calcHRA(basic,da,hra,rent,metro){
 
 function derive(){
   const I=S.income, D=S.ded, P=S.profile;
+  const isNri = P.residential === 'nri';
   const cat = P.age>=80?'supersenior':P.age>=60?'senior':'general';
   const hraEx = calcHRA(I.basic,I.da,I.hra,I.rentPaid,I.isMetro);
   const netSalNew = Math.max(0,I.grossSalary-75000);
@@ -256,41 +264,50 @@ function derive(){
   const hpInc = I.selfOccupied ? -Math.min(I.homeLoanInterestHP,200000)
     : I.annualRent-I.municipalTax-(I.annualRent-I.municipalTax)*.30-I.homeLoanInterestHP;
   const profNet = I.presumptive ? I.grossProfessional*(I.presumptiveRate/100) : I.professionalIncome;
-  // F&O always goes to ITR-3; don't mix with presumptive
   const totalBiz = I.businessIncome + I.fnoProfit + profNet;
   const ltcgTax = Math.max(0,I.ltcg10-125000);
-  const specialTax = I.stcg15*.20 + ltcgTax*.125 + I.ltcgOther*.20 + I.stcgOther*0; // stcgOther at slab
-  const savEx = cat==='senior'?50000:10000;
-  const savExUsed = Math.min(I.savingsInterest, savEx);
-  const otherSrc = I.fdInterest+I.dividends+I.otherIncome+(I.savingsInterest-savExUsed);
 
-  // GTI (gross total income) before deductions
+  // Special-rate taxes (not at slab) — online gaming flat 30%, STCG equity 20%, LTCG equity 12.5%
+  const gamingTax  = Math.round(I.onlineGaming * 0.30 * 1.04);  // 30% + 4% cess, no surcharge
+  const specialTax = I.stcg15*.20 + ltcgTax*.125 + I.ltcgOther*.20;
+  const spCess     = Math.round(specialTax*1.04);
+
+  // 80TTA/80TTB: auto-applied from savings interest entered in income tab (not a separate input)
+  const savEx    = cat==='senior'?50000:10000;
+  const savExUsed = Math.min(I.savingsInterest, savEx);
+  const otherSrc = I.fdInterest + I.dividends + I.otherIncome + (I.savingsInterest - savExUsed);
+  // Online gaming excluded from slab GTI (taxed separately at flat rate above)
+
   const gtiNew = netSalNew + hpInc + totalBiz + I.stcgOther + otherSrc;
   const gtiOld = netSalOld + hpInc + totalBiz + I.stcgOther + otherSrc;
 
-  // Deductions (old regime)
-  const c80C  = Math.min(D.c80C, 150000);
-  const c80CCD1B = Math.min(D.c80CCD1B, 50000);
-  const c80D  = Math.min(D.c80D_self, cat==='senior'?50000:25000) + Math.min(D.c80D_par, 50000);
-  const c80EEA = Math.min(D.c80EEA, 150000); // affordable housing
-  const totalDed = c80C + c80CCD1B + c80D + D.c80E + D.c80G + c80EEA;
-  // 80CCD(2) allowed in both regimes — employer NPS
-  const c80CCD2 = Math.min(D.c80CCD2, 0.14 * I.grossSalary); // max 14% of basic+DA, simplified to gross
+  // Deductions
+  const c80C      = Math.min(D.c80C, 150000);
+  const c80CCD1B  = Math.min(D.c80CCD1B, 50000);
+  const c80D      = Math.min(D.c80D_self, cat==='senior'?50000:25000) + Math.min(D.c80D_par, 50000);
+  const c80EEA    = Math.min(D.c80EEA, 150000);
+  const totalDed  = c80C + c80CCD1B + c80D + D.c80E + D.c80G + c80EEA;
+  // 80CCD(2) allowed in both regimes
+  const c80CCD2   = Math.min(D.c80CCD2, 0.14 * Math.max(I.grossSalary,1));
 
   const normalNew = Math.max(0, gtiNew - c80CCD2);
   const normalOld = Math.max(0, gtiOld - totalDed - c80CCD2);
 
-  const rNew = calcTax(normalNew, 'new', cat);
-  const rOld = calcTax(normalOld, 'old', cat);
-  const spCess = Math.round(specialTax*1.04);
-  const totalNew = rNew.total + spCess;
-  const totalOld = rOld.total + spCess;
-  const savings = totalOld - totalNew;
-  const effRate = normalNew>0 ? (totalNew/normalNew*100) : 0;
+  const rNew = calcTax(normalNew, 'new', cat, isNri);
+  const rOld = calcTax(normalOld, 'old', cat, isNri);
 
-  // ─── ITR FORM LOGIC (comprehensive) ────────────────────────────────────
+  const totalNew = rNew.total + spCess + gamingTax;
+  const totalOld = rOld.total + spCess + gamingTax;
+  const savings  = totalOld - totalNew;
+  const effRate  = normalNew>0 ? (totalNew/normalNew*100) : 0;
+
+  // Net payable / refund after TDS
+  const netPayableNew = totalNew - I.tdsPaid;
+  const netPayableOld = totalOld - I.tdsPaid;
+
+  // ─── ITR FORM LOGIC ────────────────────────────────────────────────────
   const hasCG   = I.stcg15>0 || I.ltcg10>0 || I.stcgOther>0 || I.ltcgOther>0;
-  const hasFnO  = I.fnoProfit !== 0; // F&O always ITR-3
+  const hasFnO  = I.fnoProfit !== 0;
   const hasBizOrProf = I.businessIncome!==0 || (I.professionalIncome!==0 && !I.presumptive);
   const hasPresumptive = I.presumptive && I.grossProfessional>0;
   const gtiMax  = Math.max(gtiNew, gtiOld);
@@ -298,41 +315,38 @@ function derive(){
   let itrForm = 'ITR-1';
   let itrReason = 'Salaried/pension income, 1 house property, other sources ≤ ₹50L';
 
-  if(P.residential === 'nri'){
+  if(isNri){
     itrForm = 'ITR-2';
-    itrReason = 'NRI/RNOR must use ITR-2 (not ITR-1)';
+    itrReason = 'NRI/RNOR must use ITR-2 (not ITR-1). Rebate 87A not available to NRI.';
   } else if(hasFnO || hasBizOrProf){
     itrForm = 'ITR-3';
-    itrReason = hasFnO ? 'F&O trading = non-speculative business income' : 'Business / professional income (books of accounts)';
+    itrReason = hasFnO ? 'F&O trading = non-speculative business income' : 'Business/professional income under books of accounts';
   } else if(hasPresumptive && !hasFnO){
     itrForm = 'ITR-4';
     itrReason = 'Presumptive taxation under Sec 44AD / 44ADA / 44AE';
-  } else if(hasCG){
+  } else if(hasCG || I.onlineGaming>0){
     itrForm = 'ITR-2';
-    itrReason = 'Capital gains (equity, MF, property, gold) — use ITR-2';
+    itrReason = hasCG ? 'Capital gains (equity, MF, property, gold) — use ITR-2' : 'Online gaming winnings — use ITR-2';
   } else if(gtiMax > 5000000){
     itrForm = 'ITR-2';
-    itrReason = 'Total income > ₹50 lakh — ITR-1 is not applicable';
+    itrReason = 'Total income > ₹50 lakh — ITR-1 not applicable';
   }
-
-  // Edge: presumptive + F&O → F&O always overrides to ITR-3
   if(hasPresumptive && hasFnO){
     itrForm = 'ITR-3';
     itrReason = 'F&O present — ITR-3 required even with presumptive income';
   }
 
-  // 44ADA limit warning
   const auditeWarn = I.presumptive && I.grossProfessional > 7500000;
 
   return {
-    hraEx,hpInc,profNet,totalBiz,ltcgTax,specialTax,spCess,otherSrc,
-    gtiNew,gtiOld,gtiMax,
-    c80C,c80CCD1B,c80D,c80EEA,totalDed,
+    hraEx,hpInc,profNet,totalBiz,ltcgTax,specialTax,spCess,gamingTax,otherSrc,
+    gtiNew,gtiOld,gtiMax,savExUsed,
+    c80C,c80CCD1B,c80D,c80EEA,totalDed,c80CCD2,
     normalNew,normalOld,
     rNew,rOld,totalNew,totalOld,savings,effRate,
-    itrForm,itrReason,cat,
-    hasCG,hasFnO,hasBizOrProf,hasPresumptive,auditeWarn,
-    savExUsed,c80CCD2
+    netPayableNew,netPayableOld,
+    itrForm,itrReason,cat,isNri,
+    hasCG,hasFnO,hasBizOrProf,hasPresumptive,auditeWarn
   };
 }
 
@@ -482,10 +496,27 @@ ${d.hasCG&&!d.hasFnO?`<div class="box warning">${ICO.warn} Capital gains income 
 <div class="section"><div class="section-head">${ICO.cash} Other sources</div>
 <div class="grid2">
   ${numF('FD / RD interest','fdInterest','income','Fully taxable. Bank deducts TDS @10% if >₹40K (₹50K for seniors)')}
-  ${numF('Savings account interest','savingsInterest','income',`₹${d.cat==='senior'?'50,000 exempt u/s 80TTB (senior)':'10,000 exempt u/s 80TTA'}`)}
-  ${numF('Dividends','dividends','income','Taxable in your hands @ slab rate. TDS @10% if >₹5,000/company')}
-  ${numF('Other income','otherIncome','income','Online gaming (30% flat tax), gifts >₹50K, lottery, etc.')}
+  ${numF('Savings account interest','savingsInterest','income',`₹${d.cat==='senior'?'50,000 exempt u/s 80TTB (auto-applied)':'10,000 exempt u/s 80TTA (auto-applied)'}`)}
+  ${numF('Dividends','dividends','income','Taxable @ slab rate. TDS @10% if >₹5,000/company')}
+  ${numF('Other income (gifts, casual, etc.)','otherIncome','income','Gifts >₹50K, lottery, other non-gaming income')}
 </div>
+${numF('Online gaming / fantasy sports winnings (Sec 115BBJ)','onlineGaming','income','Flat 30% tax + 4% cess — NO deductions allowed. TDS @30% at source. Enter gross winnings.')}
+${S.income.onlineGaming>0?`<div class="box danger">${ICO.warn} Online gaming tax: <strong>${FULL(d.gamingTax)}</strong> (30% flat + 4% cess). No deduction or exemption. Report in Schedule OS under Sec 115BBJ. Requires ITR-2.</div>`:''}
+</div>
+
+<div class="section"><div class="section-head">${ICO.receipt} TDS / advance tax already paid (Form 16 / 26AS)</div>
+${numF('Total TDS + advance tax paid this year','tdsPaid','income','Salary TDS (Form 16) + FD TDS (Form 16A) + self-paid advance tax. Verify against AIS on IT portal.')}
+${S.income.tdsPaid>0?`<div class="grid2" style="margin-top:8px">
+  <div class="box ${d.netPayableNew<=0?'success':'danger'}" style="text-align:center;padding:12px">
+    <div style="font-size:11px;margin-bottom:4px">${d.netPayableNew<=0?'✅ Refund due (New regime)':'⚠️ Balance payable (New regime)'}</div>
+    <div style="font-size:22px;font-weight:600">${FULL(Math.abs(d.netPayableNew))}</div>
+  </div>
+  <div class="box ${d.netPayableOld<=0?'success':'danger'}" style="text-align:center;padding:12px">
+    <div style="font-size:11px;margin-bottom:4px">${d.netPayableOld<=0?'✅ Refund due (Old regime)':'⚠️ Balance payable (Old regime)'}</div>
+    <div style="font-size:22px;font-weight:600">${FULL(Math.abs(d.netPayableOld))}</div>
+  </div>
+</div>`:'<div class="box info">Enter TDS paid above to see your net tax payable or refund amount.</div>'}
+<div class="box info" style="margin-top:8px">Pay any balance as <strong>Self-Assessment Tax</strong> via Challan 280 (ITNS 280, AY 2026-27, Code 300) before filing the return.</div>
 </div>`;
 }
 
@@ -522,8 +553,13 @@ ${numF('Education loan interest paid','c80E','ded','No upper limit. Only interes
 ${numF('Home loan interest (affordable housing)','c80EEA','ded','Additional ₹1.5L deduction for first-time home buyers. Loan sanctioned between Apr 2019 – Mar 2022. Stamp duty ≤ ₹45L.',150000)}
 </div>
 
-<div class="section"><div class="section-head">Sec 80TTA / 80TTB — savings interest</div>
-${numF(`${P.age>=60?'Savings + FD interest (80TTB)':'Savings account interest (80TTA)'}  `,'c80TTA','ded',`Max ₹${P.age>=60?'50,000 under 80TTB for senior citizens':'10,000 under 80TTA'}`,P.age>=60?50000:10000)}
+<div class="section"><div class="section-head">Sec 80TTA / 80TTB — savings interest exemption</div>
+<div class="box success">${ICO.check} <strong>Auto-applied</strong> from your savings interest entered in the Income tab.<br>
+${P.age>=60
+  ? `You qualify for <strong>80TTB</strong> (senior citizen) — exemption up to ₹50,000 on savings + FD interest. Exempt: ${FULL(d.savExUsed)}.`
+  : `<strong>80TTA</strong> — exemption up to ₹10,000 on savings account interest. Exempt: ${FULL(d.savExUsed)}. (Note: 80TTA does not cover FD interest.)`
+}
+<br>Enter your savings interest in the <strong>Income → Other sources</strong> tab to see this applied.</div>
 </div>
 
 <div class="section"><div class="section-head">Sec 80G — donations</div>
@@ -533,15 +569,17 @@ ${numF('Eligible donations (80G)','c80G','ded','50% or 100% deductible depending
 <div class="section"><div class="section-head">Old-regime deduction summary</div>
 ${[
   ['Sec 80C',d.c80C],
-  ['Sec 80CCD(1B) — NPS self',d.c80CCD1B],
-  ['Sec 80CCD(2) — Employer NPS',d.c80CCD2],
+  ['Sec 80CCD(1B) — NPS self-contribution',d.c80CCD1B],
+  ['Sec 80CCD(2) — Employer NPS (both regimes)',d.c80CCD2],
   ['Sec 80D — health insurance',d.c80D],
-  ['Sec 80E — education loan',S.ded.c80E],
-  ['Sec 80EEA — affordable housing',d.c80EEA],
+  ['Sec 80E — education loan interest',S.ded.c80E],
+  ['Sec 80EEA — affordable housing loan',d.c80EEA],
   ['Sec 80G — donations',S.ded.c80G],
-  ['HRA exemption (old regime)',d.hraEx],
+  [P.age>=60?'Sec 80TTB — savings/FD interest (auto)':'Sec 80TTA — savings interest (auto)', d.savExUsed],
+  ['HRA exemption — old regime (auto)',d.hraEx],
 ].map(([k,v])=>v>0?`<div class="ded-row"><span>${k}</span><span>${FULL(v)}</span></div>`:'').join('')}
-<div class="ded-tot"><span>Total old-regime deductions</span><span style="color:var(--success)">${FULL(d.totalDed+d.hraEx+d.c80CCD2)}</span></div>
+<div class="ded-tot"><span>Total old-regime deductions</span><span style="color:var(--success)">${FULL(d.totalDed + d.hraEx + d.c80CCD2 + d.savExUsed)}</span></div>
+<div class="ded-tot" style="font-size:11px;font-weight:400;color:var(--text3)"><span>New regime: only 80CCD(2) applies</span><span>${FULL(d.c80CCD2)}</span></div>
 </div>`;
 }
 
@@ -576,6 +614,19 @@ function bodyCompare(d){
 </div>
 
 ${mrNew>0?`<div class="box warning">${ICO.warn} <strong>Marginal relief applied:</strong> Your income (${INR(d.normalNew)}) is just above ₹12L. Tax has been reduced so you pay no more than the excess income over ₹12L.</div>`:''}
+${d.isNri?`<div class="box warning">${ICO.warn} <strong>NRI:</strong> Rebate 87A not available. Surcharge at normal rates. Foreign income not taxable in India. New regime may not be available if business income from India.</div>`:''}
+
+${(d.spCess>0||d.gamingTax>0)?`<div class="section"><div class="section-head">Tax computation breakdown</div>
+<table><thead><tr><th>Component</th><th>New regime</th><th>Old regime</th></tr></thead><tbody>
+<tr><td>Slab tax (before rebate)</td><td>${FULL(d.rNew.slab)}</td><td>${FULL(d.rOld.slab)}</td></tr>
+${d.rNew.rebate>0||d.rOld.rebate>0?`<tr><td>Rebate 87A</td><td style="color:var(--success)">-${FULL(d.rNew.rebate)}</td><td style="color:var(--success)">-${FULL(d.rOld.rebate)}</td></tr>`:''}
+${mrNew>0?`<tr><td>Marginal relief</td><td style="color:var(--success)">-${FULL(mrNew)}</td><td>—</td></tr>`:''}
+${d.rNew.sur>0||d.rOld.sur>0?`<tr><td>Surcharge</td><td>${FULL(d.rNew.sur)}</td><td>${FULL(d.rOld.sur)}</td></tr>`:''}
+<tr><td>Health & Education Cess (4%)</td><td>${FULL(d.rNew.cess)}</td><td>${FULL(d.rOld.cess)}</td></tr>
+${d.spCess>0?`<tr><td>Capital gains tax (special rate + cess)</td><td>${FULL(d.spCess)}</td><td>${FULL(d.spCess)}</td></tr>`:''}
+${d.gamingTax>0?`<tr><td>Online gaming tax (30% flat + cess)</td><td>${FULL(d.gamingTax)}</td><td>${FULL(d.gamingTax)}</td></tr>`:''}
+<tr style="font-weight:600;background:var(--surface2)"><td>Total tax liability</td><td>${FULL(rn)}</td><td>${FULL(ro)}</td></tr>
+</tbody></table></div>`:''}
 
 <div class="section"><div class="section-head">New regime slabs — FY 2025-26 (Budget 2025)</div>
 <table><thead><tr><th>Income range</th><th>Rate</th><th>Tax on slab</th></tr></thead><tbody>
@@ -694,44 +745,40 @@ async function sendAI(){
   S.messages.push({role:'user',content:q});
   S.userInput=''; S.aiLoading=true; render();
 
-  const sys=`You are an expert Indian tax advisor for FY 2025-26 (AY 2026-27). Be concise, use ₹ amounts, and reference the user's actual numbers.
+  const sys=`You are an expert Indian tax advisor for FY 2025-26 (AY 2026-27). Be concise, use ₹ amounts, reference actual user numbers.
 
-USER PROFILE: Name: ${S.profile.name||'User'} | Age: ${S.profile.age} (${d.cat}) | Status: ${S.profile.residential}
+USER PROFILE: Name: ${S.profile.name||'User'} | Age: ${S.profile.age} (${d.cat}) | Status: ${S.profile.residential}${d.isNri?' — NRI: rebate 87A NOT available':''}
 
 INCOME SUMMARY:
-- Gross salary: ${FULL(S.income.grossSalary)} | HRA received: ${FULL(S.income.hra)} | HRA exempt: ${FULL(d.hraEx)}
-- House property income/loss: ${FULL(d.hpInc)}
-- Business/professional income: ${FULL(d.totalBiz)} | F&O: ${FULL(S.income.fnoProfit)} | Presumptive: ${S.income.presumptive}
-- Capital gains (STCG equity): ${FULL(S.income.stcg15)} | LTCG equity: ${FULL(S.income.ltcg10)} | LTCG exempt: ₹1,25,000
-- Other sources: ${FULL(d.otherSrc)}
-- GTI (new regime): ${FULL(d.gtiNew)} | GTI (old regime): ${FULL(d.gtiOld)}
+- Gross salary: ${FULL(S.income.grossSalary)} | HRA exempt (old): ${FULL(d.hraEx)} | LTA: ${FULL(S.income.lta)}
+- House property: ${FULL(d.hpInc)} (${S.income.selfOccupied?'self-occupied':'let-out'})
+- Business/professional: ${FULL(d.totalBiz)} | F&O: ${FULL(S.income.fnoProfit)} | Presumptive: ${S.income.presumptive}
+- STCG equity 20%: ${FULL(S.income.stcg15)} | LTCG equity 12.5%: ${FULL(S.income.ltcg10)} | STCG other slab: ${FULL(S.income.stcgOther)} | LTCG other 20%: ${FULL(S.income.ltcgOther)}
+- Online gaming 30% flat: ${FULL(S.income.onlineGaming)} → Tax: ${FULL(d.gamingTax)}
+- FD interest: ${FULL(S.income.fdInterest)} | Savings: ${FULL(S.income.savingsInterest)} | 80TTA\/TTB exempt: ${FULL(d.savExUsed)}
+- GTI new: ${FULL(d.gtiNew)} | GTI old: ${FULL(d.gtiOld)} | TDS paid: ${FULL(S.income.tdsPaid)}
 
-DEDUCTIONS (old regime):
-- 80C: ${FULL(d.c80C)}/₹1,50,000 | 80CCD(1B) NPS: ${FULL(d.c80CCD1B)}/₹50,000 | 80D: ${FULL(d.c80D)}
-- 80CCD(2) employer NPS: ${FULL(d.c80CCD2)} (allowed in BOTH regimes)
-- Total deductions: ${FULL(d.totalDed+d.hraEx+d.c80CCD2)}
+DEDUCTIONS:
+- 80C: ${FULL(d.c80C)} | 80CCD(1B): ${FULL(d.c80CCD1B)} | 80CCD(2) employer NPS (both regimes): ${FULL(d.c80CCD2)}
+- 80D: ${FULL(d.c80D)} | 80E: ${FULL(S.ded.c80E)} | 80EEA: ${FULL(d.c80EEA)} | 80G: ${FULL(S.ded.c80G)}
 
-TAX COMPUTED:
-- New regime taxable: ${FULL(d.normalNew)} | Tax: ${FULL(d.totalNew)}${d.rNew.rebate>0?' | Rebate 87A: '+FULL(d.rNew.rebate):''}${d.rNew.marginalRelief>0?' | Marginal relief: '+FULL(d.rNew.marginalRelief):''}
-- Old regime taxable: ${FULL(d.normalOld)} | Tax: ${FULL(d.totalOld)}${d.rOld.rebate>0?' | Rebate 87A: '+FULL(d.rOld.rebate):''}
-- RECOMMENDATION: ${d.savings>=0?'New regime saves '+FULL(d.savings):'Old regime saves '+FULL(-d.savings)}
-- Effective tax rate: ${d.effRate.toFixed(1)}%
-- ITR form: ${d.itrForm} | Reason: ${d.itrReason}
+TAX RESULT:
+- New regime: ${FULL(d.normalNew)} taxable → ${FULL(d.totalNew)}${d.rNew.rebate>0?' | Rebate 87A: '+FULL(d.rNew.rebate):''}${d.rNew.marginalRelief>0?' | Marginal relief: '+FULL(d.rNew.marginalRelief):''}
+- Old regime: ${FULL(d.normalOld)} taxable → ${FULL(d.totalOld)}${d.rOld.rebate>0?' | Rebate 87A: '+FULL(d.rOld.rebate):''}
+- ${d.savings>=0?'New regime BETTER by '+FULL(d.savings):'Old regime BETTER by '+FULL(-d.savings)}
+- Net payable (new): ${d.netPayableNew>=0?'Pay '+FULL(d.netPayableNew):'Refund '+FULL(-d.netPayableNew)} | ITR: ${d.itrForm}
 
-KEY TAX RULES FY 2025-26:
-- New regime slabs: 0-4L:0%, 4-8L:5%, 8-12L:10%, 12-16L:15%, 16-20L:20%, 20-24L:25%, >24L:30%
-- New regime rebate 87A: ₹60,000 if income ≤ ₹12L (zero tax). Salaried: ₹12.75L after std ded ₹75K
-- Old regime rebate 87A: ₹12,500 if income ≤ ₹5L
-- STCG listed equity/MF: 20% (revised from 15% from 23 Jul 2024). LTCG listed: 12.5% above ₹1.25L
-- LTCG other (property, gold): 20% without indexation (Budget 2024)
-- 44ADA: 50% presumptive for professionals up to ₹75L gross
-- 44AD: 6%/8% for businesses up to ₹3Cr
-- F&O = non-speculative business → always ITR-3
-- NRI → ITR-2 (not ITR-1). Income >₹50L → ITR-2
-- New regime surcharge capped at 25% (Budget 2024). Old regime: up to 37% for >₹5Cr
-- 80CCD(2) employer NPS: max 14% of salary for govt, 10% for private — DEDUCTIBLE IN BOTH REGIMES
-- Advance tax if liability >₹10K: Jun 15 (15%), Sep 15 (45%), Dec 15 (75%), Mar 15 (100%)
-- e-Verify within 30 days of filing. Filing deadline: 31 Jul 2026 for non-audit`;
+KEY RULES:
+- New slabs: 0-4L:0%,4-8L:5%,8-12L:10%,12-16L:15%,16-20L:20%,20-24L:25%,>24L:30%
+- Rebate 87A new: ₹60K if ≤₹12L. Old: ₹12,500 if ≤₹5L. NRI NOT eligible for rebate.
+- STCG equity 20%,LTCG equity 12.5% above ₹1.25L,LTCG property\/gold 20% without indexation
+- Online gaming: 30% flat (Sec 115BBJ), no deductions, requires ITR-2
+- 44ADA: 50% presumptive professionals ≤₹75L. 44AD: 6\/8% business ≤₹3Cr
+- F&O=ITR-3. NRI=ITR-2. Income>₹50L=ITR-2. Capital gains=ITR-2
+- 80CCD(2) employer NPS: both regimes, max 14% salary
+- New regime surcharge max 25%. Old regime: up to 37% for >₹5Cr
+- Advance tax if >₹10K: 15Jun(15%),15Sep(45%),15Dec(75%),15Mar(100%)
+- Filing deadline 31 Jul 2026. e-Verify within 30 days.`;
 
   try{
     const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
